@@ -1,0 +1,201 @@
+#用git拉取后端项目
+1--打开要拉取项目的文件夹位置=》右击-git bash here=》git clone 项目地址
+2--配置maven环境，jdk，并检查maven-conf--settings的阿里云
+3--构建，执行，部署--》编译器---共享构建进程堆大小(MB)2048
+4--clear
+5--compile
+
+【D:/ruanjian/maven/apache-maven-3.6.1】【D:\ruanjian\maven\apache-maven-3.6.1\conf\settings.xml】【D:\ruanjian\maven\repository】
+
+#删除对象中的某几个属性
+let {_index,_rowKey,...newRow} = row
+
+#数组非空判断
+isEmpty()判断有没有元素，而size()返回有几个元素， 如果判断一个集合有无元素 建议用isEmpty()方法.比较符合逻辑用法
+
+#数组常用方法
+1、push()向数组的末尾添加新内容
+2、pop()删除数组的最后一项
+3、shift()删除数组的第一项
+4、unshift()向数组首位添加新内容
+5、slice()按照条件查找出其中的部分内容
+6、splice()对数组进行增删改
+7、join()用指定的分隔符将数组每一项拼接为字符串
+8、concat()用于连接两个或多个数组
+9、indexOf()检测当前值在数组中第一次出现的位置索引
+10、lastIndexOf()检测当前值在数组中最后一次出现的位置索引
+11、includes()判断一个数组是否包含一个指定的值
+12、sort()对数组的元素进行排序（默认是从小到大来排序 并且是根据字符串来排序的）
+13、reverse()把数组倒过来排列
+14、forEach()循环遍历数组每一项
+
+#字符串常用方法
+1.str.concat()：用于将一个或多个字符串拼接起来，返回拼接后的新字符串
+2.str.slice()：此方法用来提取一个字符串，并返回一个新的字符串
+3.str.substring()：此方法和slice方法功能相同都是提取一个字符串，并返回提取到的字符串
+4.str.trim()：删除一个字符串两端的空白字符，并返回删除后的新字符串，不会改变原有字符串
+5.str.toLowerCase()：此方法没有参数，会将调用该方法的字符串值转为小写形式，并返回
+6.str.toUpperCase()：此方法没有参数，会将调用该方法的字符串值转为大写形式，并返回
+7.str.replace()：可以将一个替换值替换字符串的一部分，返回替换后的新字符串
+8.str.split()：可以使用一个指定的分隔符来将字符串拆分成数组，返回一个数组
+9.str.charAt()：从一个字符串中返回指定的字符
+10.str.includes()：判断字符串中是否包含指定字符，包含则返回true，不包含则返回false
+11.str.indexOf()：判断字符串中是否包含指定字符，如果包含则返回该字符索引的位置(查找到了立即返回)，如果不包含则返回-1
+12.str.lastIndexOf()：用法和indexOf基本相同，区别是lastIndexOf()是从后往前查找
+13.str.search()：使用正则表达式查找指定字符串，如果找到则返回首次匹配成功的索引，没有找到则返回-1
+14.str.match()：返回一个字符串匹配正则表达式的结果,如果未设置全局匹配，则会返回第一个完整匹配及其相关的捕获组，捕获组中包含有groups、index、input等属性
+
+
+#常用js校验
+1.非零开头的最多带两位小数的数字：^([1-9][0-9]*)+(.[0-9]{1,2})?$
+2.手机号码：^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$
+3.手机号码：let reg =/(^((13[0-9])|(14[5-9])|(15([0-3]|[5-9]))|(16[6-7])|(17[1-8])|(18[0-9])|(19[1|3])|(19[5|6])|(19[8|9]))\d{8}$)/;
+4.0/正数最多带有两位小数 let reg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;（包括0，去掉？就不包括0了）
+
+//时间格式
+@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+new SimpleDateFormat("yyyyMMdd").format(new Date())
+
+
+
+//mysql语句
+twiceInfoIdList!=null and !twiceInfoIdList.isEmpty()
+IFNULL(d.CHK_STAS,'99')
+distinct
+
+case
+ when now() <![CDATA[ < ]]>  A.DCLA_BEGIN_TIME then '报名未开始'
+when now() <![CDATA[ > ]]> A.DCLA_END_TIME then '报名结束'
+ELSE '报名中'
+end as state,
+
+and LEFT(B.DOC_NAME_TYPE,1)='0'
+
+//类型转换
+CAST ('9.0' AS decimal)
+convert('9.0',decimal)
+
+date_format(str_to_date(a.INVO_DATE,'%Y%m%d'),'%Y%m%d') &lt;= date_format(str_to_date(#{jzrq},'%Y%m%d'),'%Y%m%d')
+
+
+
+
+=======事务==========
+1.@Transactional 应用在非 public 修饰的方法上。
+2.同一个类中方法调用，导致@Transactional失效。比如有一个类Test，它的一个方法A，A再调用本类的方法B（不论方法B是用public还是private修饰），但方法A没有声明注解事务，而B方法有。则外部调用方法A之后，方法B的事务是不会起作用的。
+3.使用try   catch的时候异常被你的 catch“吃了”导致@Transactional失效
+4、异常被捕获后没有抛出
+5、抛出非运行时异常（@Transactional(rollbackFor = Exception.class)）
+6、方法内部直接调用（修改方式，把当前类自己注入一下调用即可）
+7、数据库本身不支持（mysql数据库，必须设置数据库引擎为InnoDB）
+8、事务传播属性设置错误
+
+
+#常用
+1、String dataStr = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now());
+2、this.selectedData.findIndex((item) => item.chkStas === "10") === -1
+
+
+======================校验价格，数字... ...================================
+
+<Input v-model="data.refPurcPric" placeholder="请输入" clearable @on-keyup="validPric('refPurcPric')"
+                   @on-blur="blurPric('refPurcPric',2)"/>
+
+validPric(fieldName) {
+      this.data[fieldName] = this.data[fieldName].replace(/(^\s*)|(\s*$)/g, "");
+      const reg = /[^\d.]/g;
+      // 只能是数字和小数点，不能是其他输入
+      this.data[fieldName] = this.data[fieldName].replace(reg, "");
+      // 保证第一位只能是数字，不能是点
+      this.data[fieldName] = this.data[fieldName].replace(/^\./g, "");
+      // 小数点只能出现1位
+      this.data[fieldName] = this.data[fieldName].replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+      // 小数点后面保留2位
+      this.data[fieldName] = this.data[fieldName].replace(/^(\-)*(\d+)\.(\d\d).*$/, "$1$2.$3");
+    },
+    blurPric(fieldName, point = 2) {
+      this.data[fieldName].replace(/[a-zA-Z]/g, "") ? this.data[fieldName] = Number(this.data[fieldName].replace(/[a-zA-Z]/g, "")).toFixed(point) : this.data[fieldName] = '';
+    },
+
+
+
+
+
+
+
+[mysqld]
+#设置mysql的安装目录
+basedir = D:\ruanjian\mysql_server\mysql-8.0.28-winx64
+#设置mysql数据库的数据存放目录
+datadir = D:\ruanjian\mysql_server\mysql-8.0.28-winx64\data\
+#设置3306端口
+port = 3306
+#设置允许最大连接数
+max_connections = 200
+#服务端使用的字符集默认为UTF8
+character-set-server = utf8
+#创建新表时使用的默认存储引擎
+default-storage-engine = INNODB
+[mysl]
+#设置mysql客户端的默认字符集
+default_character-set = utf8
+[client]
+#设置mysql客户端连接服务端时默认使用的端口
+port = 3306
+default-character-set = utf8
+sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+
+
+
+
+
+
+
+#终止端口号
+1--netstat -ao|findstr "8115"
+2--taskkill /pid 18320 -t -f
+
+#防火墙
+NetSh Advfirewall set allprofiles state off  #关闭防火墙
+Netsh Advfirewall show allprofiles           #查看防火墙状态
+
+#启动redis
+1.D: 
+2.cd D:\ruanjian\redis\redis_server\Redis-x64-5.0.14.1 
+3.redis-server.exe redis.windows.conf
+
+#启动mysql
+1.win+r cmd ctrl+shift+enter 管理员方式启动
+2.net start mysql 打开mysql服务
+3.netstat -an|find "3306"  netstat -ano 查看3306端口号是否被占用
+4.services.msc 查看mysql是否启动
+
+
+List<UapRoleVo> linkedHashMap = UserInterfaceService.getRoleAll(restTemplate, WSSUAP_URL, userid);
+        List<UapRoleVo> uapRoleVoList = JSONObject.parseArray(JSONObject.toJSONString(linkedHashMap)).toJavaList(UapRoleVo.class);
+
+
+
+
+2M是2MB的缩写。我们通常所说的容易大小比如：多少兆，多少G，其实都是简称，全称应该是兆字节(MB)、吉字节(GB)。
+兆字节（Megabytes）是计算机存储容量的单位，也常用MB来表示。1MB=1024*1024Bytes。
+计算机存储单位一般用字节(Byte)、千字节(KB)、兆字节(MB)、吉字节(GB)、太字节(TB)、拍字节(PB)、艾字节(EB)、泽它字节(ZB，又称皆字节)、尧它字节(YB)表示。
+它们之间的换算关系是：
+1KB=1024B
+1MB=1024KB
+1GB=1024MB
+1TB=1024GB
+1PB=1024TB
+1EB=1024PB
+1ZB=1024EB
+1YB=1024ZB
+
+
+
+Spring版本:      5.0.13.RELEASE
+SpringBoot版本:   2.0.9.RELEASE
+
+node版本：        v11.1.0
+vue@2.6.11 
+vue@2.5.17  extraneous

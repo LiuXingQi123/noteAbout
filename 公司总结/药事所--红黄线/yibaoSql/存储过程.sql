@@ -1,0 +1,169 @@
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `sp_getyjhhx`$$
+
+CREATE
+    
+    PROCEDURE `db_ysxt`.`sp_getyjhhx`(
+		PI_YPTBDM  IN VARCHAR,
+                lx         IN VARCHAR,
+                y1         OUT DECIMAL,
+                y2         OUT DECIMAL,
+                y3         OUT DECIMAL,
+                y4         OUT DECIMAL,
+                r1         OUT DECIMAL,
+                ydy1         OUT DECIMAL,
+                ydr1         OUT DECIMAL,
+                ydr2         OUT DECIMAL,
+                PO_RETCODE OUT DECIMAL,
+                PO_ERRMSG  OUT VARCHAR)
+    
+BEGIN
+	DECLARE nstep INT;
+	DECLARE v_ypfl VARCHAR(100);
+	DECLARE v_sfxsq VARCHAR(100);
+	DECLARE v_hl VARCHAR(100);
+	
+	SET PO_RETCODE=1;
+	SET nstep=1;
+	
+	SELECT CASE WHEN A.`DRUG_INQ_TYPE` = '1' THEN '紧缺药品'
+	WHEN IFNULL(SUBSTR(TRIM(B.`DRUG_SP_FLAG`), 15, 1), 0) = '1' OR IFNULL(SUBSTR(TRIM(B.`DRUG_SP_FLAG`), 16, 1), 0) = '1' THEN '原研药品/参比制剂'
+	WHEN A.`DRUG_INQ_TYPE` = '2' THEN '通过评价'
+	WHEN A.`DRUG_INQ_TYPE` = '4' THEN '医保药品'
+	WHEN A.`DRUG_INQ_TYPE` = '5' THEN '新增医保'
+	WHEN A.`DRUG_INQ_TYPE` = '3' THEN '抗癌药品'
+	ELSE NULL END,
+	A.`IS_NEWDCLA_FLAG`,
+	CASE WHEN IFNULL(TRIM(B.`CNTE`), 0) <> '0' AND IFNULL(TRIM(B.`CNTE`), 0) <> '0.0' THEN TRIM(B.`CNTE`)
+	WHEN IFNULL(TRIM(B.`LGCYP`), 0) <> '0' AND IFNULL(TRIM(B.`LGCYP`), 0) <> '0.0' THEN TRIM(B.`LGCYP`)
+	ELSE '1' END 
+	INTO v_ypfl, v_sfxsq, v_hl 
+	FROM `drug_purc_rls_b` AS A, `drug_rls_b` AS B
+	WHERE A.`DRUG_SH_CODE` = B.`DRUG_SH_CODE`
+	AND A.`DRUG_SH_CODE` = PI_YPTBDM;
+	
+	IF lx='YY' THEN 
+	SET nstep = 2;
+	
+	SELECT MAX(
+	CASE WHEN v_sfxsq = '1' THEN NULL
+	WHEN B.`MEMO` LIKE '%依据05%' THEN CAST(IFNULL(B.`REF_PURC_PRIC`, yjjg) AS DECIMAL(10,2)) ELSE CAST(IFNULL(A.`REF_PURC_PRIC`, yjjg) AS DECIMAL(10,2)) END) INTO y1
+	FROM `drugpric_yellow_spdrug_b` AS A, `drugpric_fstrslt_b` AS C,`drug_pric_rls_b` AS B
+	WHERE A.`DRUG_SH_CODE`=B.`DRUG_SH_CODE` AND B.`DRUG_SH_CODE` = C.`DRUG_SH_CODE`
+	AND B.`REF_PURC_RULE_TYPE`='10'
+	AND A.`VALI_FLAG`='1' 
+	AND DATE_FORMAT(NOW(),'%Y%m%d') BETWEEN A.`BEGIN_DATE` AND IFNULL(A.`END_DATE`,'99991231')
+	AND B.`DRUG_SH_CODE` = PI_YPTBDM;
+	
+	SET nstep = 3;
+	
+	SELECT CASE WHEN v_ypfl = '原研药品/参比制剂' THEN ROUND(MAX(CAST(
+	CASE WHEN  B.`EM_FLAG` IN ('1','2') THEN NULL  
+	WHEN B.`MEMO` LIKE  '%依据01%' THEN NULL 
+	WHEN B.`MEMO` LIKE  '%依据03%' THEN NULL
+	WHEN IFNULL(SUBSTRING(TRIM(A.`DRUG_SP_FLAG`), 15, 1), 0) = '1' OR IFNULL(SUBSTRING(TRIM(A.`DRUG_SP_FLAG`), 16, 1), 0) = '1' 
+	THEN IFNULL(CASE WHEN B.`MEMO` LIKE  '%依据05%' 
+	THEN CAST(B.`REF_PURC_PRIC` AS DECIMAL(10,2)) ELSE C.`REF_PURC_PRIC` END,E.`REF_PURC_PRIC`) END AS DECIMAL(10,2)) * sf_getcbjbyyp(PI_YPTBDM, v_hl) / sf_getcbjbyyp(A.`DRUG_SH_CODE`, v_hl)),2) 
+	ELSE IFNULL(ROUND(MAX(
+	CASE WHEN IFNULL(SUBSTRING(TRIM(A.`DRUG_SP_FLAG`), 15, 1), 0) = '1' OR IFNULL(SUBSTRING(TRIM(A.`DRUG_SP_FLAG`), 16, 1), 0) = '1' THEN NULL
+	WHEN B.`EM_FLAG` IN ('1','2') THEN NULL
+	WHEN D.`IS_NEWDCLA_FLAG` = '1' THEN NULL
+	WHEN B.`MEMO` LIKE  '%依据01%' THEN NULL 
+	WHEN B.`MEMO` LIKE  '%依据03%' THEN NULL 
+	WHEN B.`MEMO` LIKE  '%依据05%' THEN CAST(IFNULL(B.`REF_PURC_PRIC` ,E.`REF_PURC_PRIC`) AS DECIMAL(10,2)) ELSE CAST(IFNULL(C.`REF_PURC_PRIC` ,E.`REF_PURC_PRIC`) AS DECIMAL(10,2)) 
+	END * sf_getcbjbyyp(PI_YPTBDM, v_hl) /sf_getcbjbyyp(A.`DRUG_SH_CODE`, v_hl)),2), 
+	ROUND(MAX(CASE WHEN IFNULL(SUBSTRING(TRIM(A.`DRUG_SP_FLAG`), 15, 1), 0) = '1' OR IFNULL(SUBSTRING(TRIM(A.`DRUG_SP_FLAG`), 16, 1), 0) = '1' THEN NULL
+	WHEN B.`EM_FLAG` IN ('1','2') THEN NULL
+	WHEN B.`MEMO` LIKE  '%依据01%' THEN NULL 
+	WHEN B.`MEMO` LIKE  '%依据03%' THEN NULL
+	WHEN B.`MEMO` LIKE  '%依据05%' THEN CAST(IFNULL(B.`REF_PURC_PRIC` ,E.`REF_PURC_PRIC`) AS DECIMAL(10,2))
+	ELSE CAST(IFNULL(C.`REF_PURC_PRIC` ,E.`REF_PURC_PRIC`) AS DECIMAL(10,2)) END * sf_getcbjbyyp(PI_YPTBDM, v_hl) / sf_getcbjbyyp(A.`DRUG_SH_CODE`, v_hl)),2))
+	END INTO y2
+	FROM 
+	`drug_rls_b` AS A,
+	`drug_pric_rls_b` AS B,
+	`drugpric_yellow_spdrug_b` AS C,
+	`drug_purc_rls_b` AS D,
+	`drugpric_fstrslt_b` AS E
+	WHERE 1=1
+	AND A.`DRUG_SH_CODE` = B.`DRUG_SH_CODE`
+	AND B.`REF_PURC_RULE_TYPE`='01'
+	AND A.`DRUG_SH_CODE` = D.`DRUG_SH_CODE`
+	AND A.`DRUG_SH_CODE` = E.`DRUG_SH_CODE`
+	AND A.`DRUG_SH_CODE` = C.`DRUG_SH_CODE`
+	AND C.`VALI_FLAG`='1' 
+	AND DATE_FORMAT(NOW(),'%Y%m%d') BETWEEN C.`BEGIN_DATE` AND IFNULL(C.`END_DATE`,'99991231')
+	AND D.`PURC_STAS` <> '0'
+	AND E.`VALI_FLAG` <> '0'
+	AND A.`DRUG_SH_CODE` = PI_YPTBDM;
+	
+	
+	SET nstep = 4;
+	IF v_ypfl <> '原研药品/参比制剂' THEN
+	SELECT   MAX(
+	CASE
+	WHEN E.`EM_FLAG` IN ('1','2') THEN NULL
+	WHEN E.`MEMO` LIKE  '%依据01%' THEN NULL 
+	WHEN E.`MEMO` LIKE  '%依据03%' THEN NULL
+	WHEN E.`MEMO` LIKE  '%依据05%' THEN CAST(IFNULL(E.`REF_PURC_PRIC`, IF(G.`REF_PURC_PRIC`=0,NULL,G.`REF_PURC_PRIC`)) AS DECIMAL(10,2))
+	ELSE CAST(IFNULL(F.`REF_PURC_PRIC`, IF(G.`REF_PURC_PRIC`=0,NULL,G.`REF_PURC_PRIC`)) AS DECIMAL(10,2)) END * sf_getcbjbyyp(PI_YPTBDM, v_hl) /sf_getcbjbyyp(A.`DRUG_SH_CODE`, v_hl)) 
+	INTO r1
+	FROM 
+	`drug_rls_b` AS A,
+	`drug_purc_rls_b` AS D,
+	`drug_pric_rls_b` AS E,
+	`drugpric_yellow_spdrug_b` AS F,
+	`drugpric_fstrslt_b` AS G
+	WHERE 1=1
+	AND A.`DRUG_SH_CODE` = D.`DRUG_SH_CODE`
+	AND A.`DRUG_SH_CODE` = E.`DRUG_SH_CODE`
+	AND E.`REF_PURC_RULE_TYPE`='01'
+	AND A.`DRUG_SH_CODE` = G.`DRUG_SH_CODE`
+	AND A.`DRUG_SH_CODE` = F.`DRUG_SH_CODE`
+	AND F.`VALI_FLAG` = '1'
+	AND DATE_FORMAT(NOW(),'%Y%m%d') BETWEEN F.`BEGIN_DATE` AND IFNULL(F.`END_DATE`,'99991231')
+	AND D.`PURC_STAS` <> '0'
+	AND G.`VALI_FLAG` <> '0'
+	AND (IFNULL(SUBSTRING(TRIM(A.`DRUG_SP_FLAG`), 15, 1), 0) = '1' OR IFNULL(SUBSTRING(TRIM(A.`DRUG_SP_FLAG`), 16, 1), 0) = '1')
+	AND A.`DRUG_SH_CODE` = PI_YPTBDM;
+	
+	SET y3=ROUND(r1*0.7,2);
+	SET r1=ROUND(r1,2);
+	END IF;
+	
+	SET nstep = 6;
+	
+	SELECT ROUND(
+	CASE WHEN v_sfxsq='1' OR v_ypfl = '通过评价' THEN
+	MAX(
+	CASE 
+	WHEN  D.`EM_FLAG` IN ('1','2') THEN 0
+	WHEN D.`MEMO` LIKE  '%依据01%' THEN 0 
+	WHEN D.`MEMO` LIKE  '%依据03%' THEN 0 
+	WHEN H.`IS_NEWDCLA_FLAG` = '1' THEN
+	(SELECT MIN(`REF_PURC_PRIC`) FROM `drugpric_rslt_b` WHERE `DRUG_SH_CODE` = A.`DRUG_SH_CODE`
+	AND `STAS` = '20' AND `VALI_FLAG`='1' AND DATE_FORMAT(NOW(),'%Y%m%d') BETWEEN `BEGIN_DATE` AND IFNULL(`END_DATE`,'99991231'))
+	ELSE CAST(IFNULL(IF(D.`REF_PURC_PRIC`=0,NULL,D.`REF_PURC_PRIC`), F.`REF_PURC_PRIC`) AS DECIMAL(10,2)) END * 
+	sf_getcbjbyyp(PI_YPTBDM, v_hl) /sf_getcbjbyyp(D.`REF_PURC_PRIC`, v_hl)) ELSE  NULL END ,2)
+	INTO y4
+	FROM 
+	`druglist_type_b` AS A,
+	v_ybbm_mlsxh AS B,
+	`drug_pric_rls_b` AS D,
+	`drugpric_fstrslt_b` AS F,
+	`drug_rls_b` AS G,
+	`drug_purc_rls_b` AS H
+	WHERE 
+	A.`DRUG_SH_CODE` = B.`DRUG_SH_CODE`
+	AND A.`DRUG_SH_CODE` = D.`DRUG_SH_CODE`
+	AND A.`DRUG_SH_CODE` = G.`DRUG_SH_CODE`
+	AND A.`DRUG_SH_CODE` = H.`DRUG_SH_CODE`
+	AND A.`DRUG_SH_CODE` = F.`DRUG_SH_CODE`
+	AND F.`VALI_FLAG` = '1'
+	AND A.`DRUGLIST_TYPE` = '0'
+	AND A.`VALI_FLAG` = '1'
+	AND D.`DRUG_SH_CODE` = PI_YPTBDM;
+END$$
+
+DELIMITER ;

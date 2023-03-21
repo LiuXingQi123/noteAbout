@@ -1,0 +1,406 @@
+==========mybatis===========
+MyBatis是一个数据持久层(ORM)框架,把实体类和SQL语句之间建立了映射关系，是一种半自动化的ORM实现
+
+MyBatis的核心对象
+configuration.xml 全局配置文件(1个)
+mapper.xml 核心映射文件(n个)
+
+核心API
+SqlSessionFactoryBuilder
+SqlSessionFactory
+SqlSession
+
+全局配置文件
+映射文件
+
+==========MyBatis对象关联映射=========
+持久化
+JDBC 就是一种持久化机制
+DAO 层（数据访问层）也被称为持久化层
+
+ORM（Object Relational Mapping）
+对象-关系-映射
+
+----实体之间的关系----
+1.泛化关系
+通过对象之间的继承方法来实现
+
+2.关联关系
+通过一个对象持有另一个对象的实例.常见的关系有：
+
+一对一，多对一，一对多，多对多。
+
+
+
+==========MyBatis进阶知识=========
+mybatis-generator:generate
+
+
+=======缓存===========
+缓存：是介于应用程序和物理数据源之间的临时或永久存储空间。
+
+作用：是为了降低应用程序对物理数据源访问的频次，从而提高了应
+用的运行性能。
+
+MyBatis缓存
+1.一级缓存  session
+2.二级缓存 二级缓存又称为“SessionFactory的缓存”
+<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true" />
+3.自定义缓存
+-----Mybatis数据检索策略------
+1.立即检索
+2.延迟检索
+
+内--有all  join-inner join-right join
+empt p
+外--all null== left join
+
+===========代理模式=========
+
+=========spring=========
+Spring之父:Rod Johnson
+Spring：轻量级框架, Java EE的春天,当前主流框架
+内容
+1.IoC容器
+2.AOP实现(面向切面编程)
+Spring 两大核心技术
+控制反转(IoC：Inversion of Control ) /依赖注入(DI：Dependency Injection )
+面向切面编程(AOP：Aspect Oriented Programming)
+
+spring核心模块
+1.spring-core
+2.spring-beans
+3.spring-context
+4.spring-aop
+5.spring-expression
+
+-------spring初始化-------
+ApplicationContext ac = new ClassPathxmlApplicationContext("spring-*.xml");
+(Student)ac.getBean("id").show();
+
+Spring的优点
+低侵入式设计
+独立于各种S应用服务器
+依赖注入特性将组件关系透明化，降低了耦合度
+面向切面编程特性允许将通用任务进行集中式处理
+与第三方框架的良好整合
+
+new对象--bean(id唯一,class--完整限定名,scope作用域)
+new构造--constructor(index01,value,name)
+.setName--property(name,value,ref)
+list->(值)value->(对象)bean
+bean(标签注入-属性注入p:year="")
+值类型
+引用类型
+
+
+Spring中Bean生命周期
+1.bean定义与实例化
+2.初始化(init-method)
+3.使用
+4.销毁(destory-method)
+
+Spring中Bean有五种作用域
+1.singleton(默认单例)
+2.prototype(多例)
+3.request
+4.session
+5.global session
+
+==========spring-AOP==========
+Aspect-Oriented Programming
+面向切面【方面】编程
+AOP--公共功能与核心业务隔离
+IOC--组件创建和使用分离
+AOP原理
+1.将复杂的需求分解出不同方面，将散布在系统中的公共功能集中解决
+2.采用代理机制组装起来运行，在不改变原程序的基础上对代码段进行增强处理，增加新的功能
+
+所谓面向切面编程，是一种通过预编译和运行期动态代理的方式实现在不修改源代码的情况下给程序动态添加功能的技术
+
+1.增强处理（Advice）
+2.切入点（Pointcut）
+3.连接点（Join Point）
+4.切面（Aspect）
+5.目标对象（Target object）
+6.AOP代理（AOP proxy）
+
+Aspect切点表达式语法
+1.类型匹配：包名.类名
+2.方法匹配：修饰符 返回值 包名.类名.方法名(参数)  [throws 异常类]
+
+
+==========springmvc==========
+--6大核心组件--
+DispatcherServlet（前端控制器）
+Handler（处理器）
+ModelAndView
+HandlerMapping（处理器映射）
+HandlerAdapter（适配器）
+ViewResolver（视图解析器）
+
+@Controller  
+@RequestMapping(value="/a",method=RequestMethod.POST)
+{"",""}
+
+Model  HttpSession  String[]  @RequestParam
+
+redirect:/index.jsp
+
+@Autowired  注入失败着抛出异常
+@Resource  注入失败为null
+
+<!-- 视图控制器 -->
+<mvc:view-controller path="/view/addPerson" view-name="addPerson"/>
+
+@DateTimeFormat(pattern = "yyyy-MM-dd")
+
+
+增删改  重定向
+
+=======Spring MVC消息处理======
+HttpMessageConveter接口
+StringHttpMessageConveter类(默认)
+FastJsonHttpMessageConveter类(配置)
+响应报文
+@ResponseBody 序列化 流out.print() 
+@RequestBody 反序列化
+序列化格式
+produces="text/html;charset=UTF-8";
+produces="application/xml;charset=UTF-8";
+produces="application/json;charset=UTF-8";
+
+=======mvc命名空间规范=========
+/c/... 传统mvc
+/api/... JSON
+/view/...页面
+
+
+==========API开发模式 =========
+API的作用：
+1.远程过程调用（RPC）：通过作用在共享数据缓存器上的过程（或任务）实现程序间的通信。
+2.信息交付：指松耦合或紧耦合应用程序间的小型格式化信息，通过程序间的直接通信实现数据共享
+
+-------REST(RESTful)风格------
+表述性状态转移，是一种软件架构风格,对于同一个资源的一组不同的操作。
+请求方式
+GET--query
+POST--add
+DELETE--remove
+PUT-update
+get理解为查询   delete就是删除   post就是新增   put就是更新数据
+
+@Controller->@RestController 默认-@ResponseBody
+
+ModelAndView(跳页面)
+
+@PathVariable
+
+===========Spring MVC拦截器==============
+ContentNegotiatingViewResolver
+
+核心API 
+HandlerInterceptor接口 
+
+静态--过滤器(html,jsp)
+动态--拦截器(hadle)
+
+===========Bootstrap============
+pc,app,tv
+1.快速制作响应式的网页来适配各种终端
+2.开发简单、方便
+3.移动先行
+4.代码开源
+5.代码有良好的规范
+
+
+ajax,vue,bootstrap
+
+
+dom-jquery
+响应渲染-vue
+
+
+container
+row
+col-xx-xx(列,模式,份)
+col-xx-offset-xx(右偏移margin)
+col-xx-push-xx(右absolute)
+col-xx-pull-xx(左absolute)
+
+text-left
+list-inline
+dl-horizontal
+
+table
+table-hover
+table-bordered
+table-striped
+success
+
+img-responsive
+img-circle
+
+
+tv,pc,pt,md
+
+lg>=1200
+992<=md<1200
+768<=sm<992
+xs<=768
+
+============Bootstrap 组件=============
+thumbnail-缩略图
+caption-标题
+
+nav-导航
+navbar
+navbar-header
+navbar-brand
+
+glyphicon glyphicon-home
+
+dropdown
+dropdown-menu
+data-toggle="dropdown" 
+
+
+
+
+sr-only
+aria-describedby="helpBlock"
+aria-pressed="true"
+aria-label="Close"
+aria-haspopup="true"
+aria-expanded="true"
+aria-labelledby="dropdownMenu1"
+
+--text,bg--
+primary
+success
+info
+warning
+danger
+
+
+
+===模态框=====
+data-backdrop="static"
+data-dismiss="modal"
+
+
+========vuejs=========
+//生命周期
+created(){
+alert('引擎创建完毕');
+},
+mounted(){
+alert('文档初始化完毕');
+},
+updated(){
+alert('数据更新完毕');
+},
+destroyed(){
+//vm.$destroyed()
+alert('销毁完毕');
+}
+
+只有表单元素可以使用v-model双向绑定
+
+指令，表达式{{studentId}}
+v-model="studentId"
+:val=""
+v-text="'姓名:'+studentName"
+bind:src="`img/${studentImg}`"
+vm.studentName='史真靓'
+//过滤器(表达式使用)
+filters
+v-if="temp.psex==0"
+v-else-if="temp.psex==1"
+v-else
+//属性运算getter
+computed
+//方法 es6
+methods
+
+v-for="(temp,i) in persons"
+@click="addPerson"
+
+//新增				this.persons.push(person);
+//移除					this.persons.splice(i,1);
+//查询
+this.persons=this.persons.filter(function(temp){	return temp.pname.indexOf(txt)!=-1;			});
+
+
+===============跨域=============
+1.采用jsonp格式传输数据
+2.服务器增加响应头跨域设置,设置springmvc跨域设置
+
+@CrossOrigin
+methods:{}
+
+
+
+《软件工程国家标准—计算机软件开发规范》(GB8566—88)中将软件生命周期划分为8个阶段：
+
+
+1.可行性研究与计划
+2.需求分析
+3.概要设计
+4.详细设计
+5.实现(包括单元测试)
+6.组织测试(集成测试)
+7.确认测试
+8.使用和维护
+
+瀑布模型
+螺旋模型
+47.92.67.176:80
+test@dzwbleadmin
+
+
+===========git================
+
+Workspace：工作区
+Index/Stage：暂存区，也叫索引
+Repository：仓库区（或本地仓库），也存储库
+Remote：远程仓库
+
+dir
+
+pwd
+E:\y2\HBulider\dzw_ui
+git init git管理
+git add index.html 加入暂存区
+git add -A
+git commit -m '注释'
+
+$ git config --global user.name "LiuXingQi"
+$ git config --global user.email "1569061481@qq.com"
+$ git config --list     查看全局配置
+
+./startup.sh
+./
+ifconfig
+ipconfig
+
+mysql -uroot -p123
+
+ping 192.168.72.1
+
+vim-gedi
+
+https://www.bilibili.com/video/BV19V411b7sx?p=23&spm_id_from=pageDriver
+
+
+npm i jquery -g
+2.7.1
+np4.0.0-beta.3
+
+
+netstat -nao | findstr “8080” 
+taskkill /pid 3017 /F
+
+应用层 http
+传输层 tcp/udp
+网络层 ip

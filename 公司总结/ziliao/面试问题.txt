@@ -1,0 +1,18 @@
+
+什么是反射，反射的优缺点
+线程安全的集合类
+多线程
+HashMap,HashTable的区别
+接口和抽象类的区别
+在你的项目中哪个问题让你印象最深刻
+谈谈spring,springBoot，springBoot的优缺点，springBoot的常用原注解，常用stater
+谈谈i/o流
+left join和right join的区别
+什么是Java序列化，如何实现Java序列化？
+怎么解决跨域问题
+==(地址)和equal(值)的区别
+
+
+
+
+

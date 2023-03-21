@@ -1,0 +1,160 @@
+
+1=19、根据登录账号获取用户信息   (主账号acctName)获取---userid
+2=11、获取组织节点 (userid) 获取-nodeid
+3设置=10，为用户指派组织节点 (nodeid,usesrid)
+
+let {_index,_rowKey,...newRow} = row
+用户名--loginName(userName/主账号用户名+下划线+角色代码+‘01’)--
+账号名称--name--(机构名称+下划线+帐号类型)
+
+
+开通账号--8创建用户--12对用户授予角色--10为用户指派组织节点
+根据主账号的loginName(即userName)获取主账号的userid
+根据主账号的userid获取nodeid
+
+调用权限系统停用帐号--1
+调用权限系统重新启用帐号--0
+
+
+驳回验收--
+确认验收--
+如果MEDINS_PURC_TYPE=1，
+MEDINS_PURC_PERM_TYPE=1或者2
+ =》[1,5]
+如果MEDINS_PURC_TYPE=1，MEDINS_PURC_PERM_TYPE=4
+ =》[2,6]
+
+开通账号---
+//1创建用户--返回创建的 userid
+UserInterfaceService.addUser
+//2根据主账号loginName(USER_NAME)得到 userid
+UserInterfaceService.getUserid
+//3为创建的用户 授予角色
+没有此接口
+//4根据主账号 userid 获得 nodeid
+OrganInterfaceService.queryOrgan
+
+
+关闭状态-- 要开通 0
+//调用权限系统重新【启用帐号】
+UserInterfaceService.removeUser
+
+开通状态-- 要关闭 1
+//调用权限系统重新【启用帐号】
+UserInterfaceService.removeUser
+
+
+查询-所有--自费--1  【提交时（1家医院+）】
+
+查询-议价等级23--医保--1--【是否流标品中-是（3家3级+/5家2级+）】
+
+查询-医保定点药店【是否医保定点】，机构类型(是药店2)--医保--5--【【是否连锁总店】（1家连锁/3家单体药店）】
+
+
+1.查询分页--查询 【申请人ID为当前登录的用户id】并且【流程状态是44/11】
+
+【目录顺序号】【中西药标志】
+
+
+onlnTypeL1  【0：医保】  【1：自费】
+
+onlnTypeL1=='1' && onlnTypeL2=='A'  时  【已选医院】 要 至少要1家 才能提交
+onlnTypeL1=='0' && onlnTypeL2=='0'  && faFlag=='1' 时 【已选医院】要【3家medinsLvType=3+】或者【5家medinsLvType=2+】才能提交
+onlnTypeL1=='0' && onlnTypeL2=='4'   时 【已选医院】  1家 medinsIschainMainFlag=0/1  【是否医保定点】medinsIshiFlag=1  或者 3家 medinsIschainMainFlag=2  【是否医保定点】medinsIshiFlag=1  才能提交
+
+
+ONLN_TYPE_L1==1 and ONLN_TYPE_L2 ==A  时  已选医院 至少要1家 才能提交
+
+[挂网类型L1]ONLN_TYPE_L1==0 and [挂网类型L2]ONLN_TYPE_L2 ==0  and  [是否流标品种]FA_FLAG ==1 已选医院  3家[医院等级MEDINS_LV_TYPE]3级+/5家[医院等级]2级+
+
+ONLN_TYPE_L1==0 and ONLN_TYPE_L2 ==4  时  已选医院 【是否连锁总店MEDINS_ISCHAIN_MAIN_FLAG】 （1家连锁/3家单体药店）
+
+
+let newArr = arr1.filter((item))=>!arr2.some((item2)=>item2.medinsCode===item1.medinsCode));
+
+
+
+1705699377231970304
+
+
+
+根据account 和 groupid 是否相同 
+List<GroupPeople> distinctByUniqueList = groupPeopleList.stream() .filter(item -> !dbaGroupPeoples.stream() .map(e -> e.getAccount() + e.getGroupId()) .collect(Collectors.toList()) .contains(item.getAccount() + item.getGroupId()))  .filter(UniqueUtils.distinctByKey(e -> e.getAccount())) .peek(e -> e.setId(UUIDUtil.uuid())) .collect(Collectors.toList());
+//groupPeopleList - dbaGroupPeoples 差集
+
+APPROVAL_CODE
+APPROVAL_ID
+
+根据【批准文号】approvalCode查询【药品注册批件DRUG_APPROVAL_B】表的 【批件ID】approvalId;；
+根据【批件ID】approvalId 查询【药品申报附件关联表DRUG_APLYATT_INFO_C】表
+
+
+
+alibaba的校验插件
+https://blog.csdn.net/w1057/article/details/83823224
+
+
+@JsonIgnoreProperties(ignoreUnknown = true)，将这个注解写在类上之后，就会忽略类中不存在的字段，可以满足当前的需要。这个注解还可以指定要忽略的字段
+
+liuxingqi2001@gmail.com
+
+
+//药品申报
+SELECT ddc.*
+        ,(SELECT `VARIETIES_NAME` FROM `HILIST_INFO_RLS_B` WHERE `HILIST_CODE`=ddc.`HILIST_CODE` AND
+        `HILIST_ICD_TYPE`=ddc.`HILIST_ICD_TYPE`) AS varietiesName
+        ,(SELECT `CHRGITM_LV` FROM `HILIST_INFO_RLS_B` WHERE `HILIST_CODE`=ddc.`HILIST_CODE` AND
+        `HILIST_ICD_TYPE`=ddc.`HILIST_ICD_TYPE`) AS chrgitmLv
+        ,(SELECT `HILIST_ICD_TYPE` FROM `HILIST_INFO_RLS_B` WHERE `HILIST_CODE`=ddc.`HILIST_CODE` AND
+        `HILIST_ICD_TYPE`=ddc.`HILIST_ICD_TYPE`) AS hilistIcdType
+        ,(SELECT `DOSFORM_NAME` FROM `drug_dosform_a` WHERE `DOSFORM_CODE` =
+        (SELECT `DOSFORM_CODE` FROM `HILIST_INFO_RLS_B` WHERE `HILIST_CODE`=ddc.`HILIST_CODE` AND
+        `HILIST_ICD_TYPE`=ddc.`HILIST_ICD_TYPE`)
+        OR `DOSFORM_CODE` = (SELECT `DOSFORM_PARENT_CODE` FROM `HILIST_INFO_RLS_B` WHERE `HILIST_CODE`=ddc.`HILIST_CODE`
+        AND `HILIST_ICD_TYPE`=ddc.`HILIST_ICD_TYPE`)) AS dosformName
+        FROM `drug_dcla_c` AS ddc
+
+
+@AllArgsConstructor
+@NoArgsConstructor
+
+
+SELECT ddamc.*
+        ,(SELECT `MEDINS_NAME` FROM `hosp_info_b` WHERE `MEDINS_CODE` = ddamc.`MEDINS_CODE`) AS medinsName
+        ,(SELECT `MEDINS_LV_TYPE` FROM `hosp_info_b` WHERE `MEDINS_CODE` = ddamc.`MEDINS_CODE`) AS medinsLvType
+        ,(SELECT `MEDINS_ISCHAIN_MAIN_FLAG` FROM `hosp_info_b` WHERE `MEDINS_CODE` = ddamc.`MEDINS_CODE`) AS
+        medinsIschainMainFlag
+        ,(SELECT `MEDINS_ISHI_FLAG` FROM `hosp_info_b` WHERE `MEDINS_CODE` = ddamc.`MEDINS_CODE`) AS
+        medinsIshiFlag
+        FROM `drug_dcla_aply_medins_c` AS ddamc
+        <where>
+            AND `VALI_FLAG` = '1'
+            AND `DRUG_DCLA_ID`=#{drugDclaId}
+        </where>
+
+
+
+
+
+
+
+
+
+
+
+liuxingqi2001@gmail.com
+//日志
+https://log.wondersgroup.com/log/wad/vdmLogon.jsp
+//老系统
+http://han152123.imwork.net/ysxt/login.jsp
+//权限系统
+http://10.241.81.23/#/login?redirect=%2Fauth%2Fuser
+
+<Button type="primary" icon="md-checkmark" class="btn" @click="downlodDqysc">医疗机构短缺药品上报模板下载</Button>
+//downlodDqysc 下载模板
+            downlodDqysc() {
+                let params={};
+                downlodDqysc(params).then(res=>{
+                    download(res,'医疗机构短缺药品上报模板')//使用a 链接
+                })
+            },

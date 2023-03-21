@@ -1,0 +1,103 @@
+package com.accp.test;
+
+public class SortTest {
+
+	public static void main(String[] args) {
+		int[] a = {2,5,3,4,1,6};
+		
+//		maoPaoSort(a, 1);
+//		for (int i : a) {
+//			System.out.println(i);
+//		}
+		
+//		xuanZheSort(a, 0);
+//		for (int i : a) {
+//			System.out.println(i);
+//		}
+		
+//		chaRuSort(a, 0);
+//		for (int i : a) {
+//			System.out.println(i);
+//		}
+		
+		shellSort(a);
+		for (int i : a) {
+			System.out.println(i);
+		}
+	}
+
+	
+	//冒泡排序(type=0降序，type=1升序)
+	public static void maoPaoSort(int[] a,int type) {
+		for (int i = 0; i < a.length-1; i++) {
+			for (int j = 0; j < a.length-1-i; j++) {
+				if(type==0?a[j]<a[j+1]:a[j]>a[j+1]) {
+					int temp = a[j];
+					a[j] = a[j+1];
+					a[j+1] = temp;
+				}					
+			}
+		}
+	}
+	//选择排序(type=0降序，type=1升序)
+	public static void xuanZheSort(int[] a,int type) {
+		//外层控制总共要进行排序的趟数
+		for (int i = 0; i < a.length-1; i++) {
+			//内层表示要和下标为i的数据比较数组值
+			for (int j = i+1; j < a.length; j++) {
+				if(type==0?a[i]<a[j]:a[i]>a[j]) {
+					int temp = a[i];
+					a[i] = a[j];
+					a[j] = temp;
+				}					
+			}
+		}
+	}
+	//插入排序(type=0降序，type=1升序)
+	public static void chaRuSort(int[] a,int type) {
+		//N个数，则需要进行n-1次排序
+        //从第一个元素开始，该元素可以认为已经被排序
+		for (int i = 0; i < a.length-1; i++) {
+			//取出下一个元素，在已经排序的元素序列中从后向前扫描
+			for (int j = i+1; j > 0; j--) {
+				//如果该元素（已排序）大于新元素，将该元素移到下一位置
+				if(type==0?a[j]<a[j-1]:a[j]>a[j-1]) {
+					int temp = a[j];
+					a[j] = a[j-1];
+					a[j-1] = temp;
+				}					
+			}
+		}
+	}
+	//哈希排序
+	private static void shellSort(int[] arr) {
+		for (int i = 1; i < arr.length; i++) {
+		  int temp = arr[i];
+		  int j = i;
+		  while (j > 0 && arr[j - 1] >= temp) {
+			arr[j] = arr[j - 1];
+			  j -= 1;
+		  }
+		  arr[j] = temp;
+	   }
+	}
+	//二分法查找
+	private static int find(int [] arr,int searchKey){
+	    int min = 0;
+	    int max = arr.length -1;
+	    int centre;
+	    while(min <= max){
+	    	centre = (min + max) / 2;
+	        if(arr[centre] == searchKey){
+	             return centre;
+	        }else{
+	            if(arr[centre] < searchKey){
+	            	min = centre + 1;
+	            }else{
+	            	max = centre - 1;
+	            }
+	        }
+	    }
+	    return -1;
+	}
+}

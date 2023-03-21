@@ -1,0 +1,166 @@
+1.数据库索引（聚簇索引、非聚簇索引、主键索引、二级索引、组合索引、覆盖索引、【回表、索引覆盖、最左前缀原则、索引下推】）
+2.数据库事务（4个特性ACID、事务隔离级别[mysql默认Repeatable read]、事务的传播方式[7个默认required]）
+3.脏读[修改]、幻读[新增和删除]和不可重复读[一个事务内，连续两次读取到的数据不一样]
+4.数据结构（链表、hash表[一维数组二维链表]、二叉树[可能退化成链表]、平衡二叉树[左右两边节点高度差不超过1]、红黑树[2n-1]、B树[多叉树]、B+树[最底层叶子节点包含所有数据]）
+5.Java基础、spring、springmvc、springboot、mysql、jvm、redis、分布式、Java并发、微服务（springCloud、dubbo、soa、）、消息中间件（mq）
+
+
+
+****RabbitMQ****
+
+生产者=》发送消息=》交换机=》RoutingKey绑定=》队列=》消费者=》消费消息
+
+【生产者】
+1.创建连接工厂=》host、userName、password=》创建连接=》创建信道
+
+2.交换机声明：channel.exchangeDeclare(交换机名称，交换机类型)
+
+3.队列声明：channel.queueDeclare(队列名称，队列是否持久化默认false，该队列是否只供一个消费者消费默认false，是否自动删除，参数arguments)
+
+4.队列绑定：channel.queueBind(队列名称，交换机名称，RoutingKey)
+
+5.生产者发送消息：channel.basicPublish(交换机名称，RoutingKey，prsps参数[过期时间...]，消息体)
+
+
+
+【消费者】
+1.创建连接工厂=》host、userName、password=》创建连接=》创建信道
+
+2.消费者消费消息：channel.basicConsume(队列名称，消费成功后是否自动应答AutoAck，消费者成功消费回调，消费者取消消费回调)
+
+【死信队列产生的原因】
+1.消息被拒绝
+2.消息TTL过期
+3.队列达到最大长度
+
+【由普通队列转发给死信交换机的、设置普通队列的参数arguments（死信交换机，死信队列）】
+1.设置过期时间（一般由生产者指定）
+2.正常队列设置死信交换机
+3.正常队列设置死信队列的 RoutingKey
+
+
+
+****springBoot整合RabbitMQ****
+
+队列的第5个参数可以设置 ttl过期时间、死信交换机、死信routingKey
+【配置文件config】
+1.定义常量 交换机名称、队列名称
+2.交换机Bean() return DirectExchange(交换机名称)
+3.队列Bean() return QueueBuilder(队列名称).withArguments(map[arguments]).build()
+4.队列绑定Bean(队列Bean，交换机Bean) return BindingBuilder.bind(队列名称).to(交换机名称).with(routingKey)
+
+
+【生产者】
+
+【消费者】
+
+
+
+
+
+生产者
+1.创建信道
+2.循环发送消息
+3.设置TTL时间
+4.声明交换机和对应类型channel.exchangeDeclare(交换机名称，交换机类型)
+5.声明队列 channel.queueDeclare(队列名称，队列是否持久化默认false，该队列是否只供一个消费者消费默认false，是否自动删除，参数arguments)
+6.绑定交换机和队列 channel.queueBind(队列名称，交换机名称，RoutingKey)
+7.channel.basicPublish(交换机名称，RoutingKey，prsps参数[过期时间...]，消息体)
+
+
+消费者
+1.创建信道
+2.声明交换机和对应类型channel.exchangeDeclare(交换机名称，交换机类型)
+3.声明队列 channel.queueDeclare(队列名称，队列是否持久化默认false，该队列是否只供一个消费者消费默认false，是否自动删除，参数arguments)
+4.绑定交换机和队列 channel.queueBind(队列名称，交换机名称，RoutingKey)
+5.channel.basicConsume(队列名称，消费成功后是否自动应答AutoAck，消费者成功消费回调，消费者取消消费回调)
+6.channel.Reject(标签，是否放回队列)、必须开启手动应答
+
+
+
+
+
+
+
+
+
+万达项目
+springCloud五大核心组件
+Eureka服务注册与发现
+Ribbon负载均衡
+Hystrix服务器熔断
+Zuul网关
+Config配置中心
+
+OpenFeign是Spring Cloud家族的一个成员，它最核心的作用是为HTTP形式的Rest API提供了非常简洁高效的 RPC调用方式、OpenFeign超时控制
+
+
+1、Feign与OpenFeign的区别
+Feign是Spring Cloud组件中一个轻量级RESTful的HTTP服务客户端，Feign内置了Ribbon，用来做客户端负载均衡，去调用服务注册中心的服务。
+Feign的使用方式是：使用Feign的注解定义接口，调用接口，就可以调用服务注册中心的服务。
+
+OpenFeign是Spring Cloud在Feign的基础上支持了SpringMVC的注解，如@RequestMapping等等。
+OpenFeign的@FeignClient可以解析SpringMVC的@RequestMapping注解下的接口，并通过动态代理的方式产生实现类。
+
+
+
+
+
+MyBatis工作流程
+1.先加载核心配置文件configuration.xml
+2.创建SqlSessionFactory工厂对象
+3.通过工厂对象生成SqlSession，然后打开连接数据库连接通道
+4.调用SqlSession内置API执行mapper.xml中SQL语句
+5.关闭SqlSession
+
+MyBatis的缓存机制
+1.一级缓存（默认）（SqlSession级别的缓存，也称为本地缓存）
+2.二级缓存（SqlSessionFactory级别的缓存） 需要手动开启和配置，二级缓存是基于namespace级别的缓存
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

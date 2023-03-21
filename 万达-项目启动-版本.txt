@@ -1,0 +1,86 @@
+
+
+【记录新打开-前端工程到运行】
+1.npm install（安装环境运行需要依赖的三方或者自研模块）
+2.npm run serve（启动项目，如果报错再试一次）
+
+
+【记录新打开-后端工程到运行】
+1.配置maven，文件-设置-搜索maven，
+配置Maven主路径(H)：maven的安装路径 apache-maven-3.8.4
+配置用户设置文件(S)：maven的安装路径 apache-maven-3.8.4 下的conf下的setting.xml文件（maven仓库）【并检查maven-conf--settings的阿里云下载地址】
+配置本地仓库(R)：repository（本地仓库）
+2.配置jdk，文件-项目结构-项目SDK
+3.文件-设置-搜索编译器-共享构建进程堆大小(MB)2048（有的项目太大编译内存不足）
+4.编译项目，
+最右侧导航栏-maven-生命周期-clean（删除之前编译过的文件，清除编译完成的target目录）
+最右侧导航栏-maven-生命周期-compile（只是简单的编译，不打包，编译完成的文件放在target文件夹中）
+5.启动项目就ok了
+
+
+【idea相关操作解释】
+IDEA重新导入所有maven项目依赖的技巧
+1.右侧导航栏maven-clean（删除之前编译过的文件）
+2.右侧导航栏maven-最左上角图标(重新加载所有Maven项目)
+
+点击Build Project： 编译项目，生成字节码文件
+
+点击clean：清除编译完成的target目录
+
+点击compile：只是简单的编译，不打包
+
+点击package：编译完成之后打jar包，但是不会把打完的jar包放在本地仓库中
+
+点击install（先进行了一次clean）：编译完成之后dajar包，并且会打完的jar包放在本地仓库中
+
+点击test：测试专用，可以测试执行test目录下面java目录中的所有测试类，并且生成测试报告放在target文件中
+
+
+
+
+【NPM是一个安装和管理包依赖的工具】
+通过添加 N 模块，来管理node.js版本
+不推荐该方式，版本不对应时升级node.js会导致npm命令无法使用
+> ## 步骤1 先清除npm缓存
+> npm cache clean -f
+> ## 步骤2 安装模块n， node的版本管理器，名字有点奇怪
+> npm install -g n
+> ## 步骤3 安装node.js
+> ## 步骤3.1 安装最新的稳定版
+> sudo n stable
+> # 若运行n命令后以输出command not found，请尝试如下方式
+> # sudo -E env "PATH=$PATH" [command]
+> sudo -E env "PATH=$PATH" n stable
+> ## 步骤3.2 安装最新版
+> sudo n latest
+> ## 步骤3.3 安装特定版本
+> sudo n [version.number]
+> 例子：sudo n v14.17.0  # 安装 node.js v14.17.0
+
+
+【npm相关操作】
+报错--Invalid dependency type requested: alias
+报错原因--alias 低版本的npm不支持.必须要6.9.0版本以上
+
+解决办法
+npm install -g npm
+或升级到指定版本
+npm -g install npm@版本号
+
+地址 git clone https://gitee.com/log4j/pig-ui.git
+npm install  --registry=https://registry.npmmirror.com
+npm run dev
+
+
+【前端相关版本号】
+1.npm -v   6.4.1
+2.node -v  v11.1.0
+3.vue -V   @vue/cli 4.5.15 （这个查询的是vue脚手架vue-cli的版本）
+4.vue版本号：package.json中 dependencies-"vue": "^2.6.10"
+
+【后端相关版本号】
+1.Spring版本:5.0.13.RELEASE
+2.SpringBoot版本:2.0.9.RELEASE
+3.mvn -version  Apache Maven 3.8.4（maven版本号）
+4.mybatis版本：
+5.<mybatis-plus-generator.version>3.4.0</mybatis-plus-generator.version>

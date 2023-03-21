@@ -1,0 +1,139 @@
+
+=================【String[]与List<String>,String的相互转换】=================
+List<String> list = Arrays.asList(arr);
+String[] arr = list.toArray(list);
+String[] arr = "a,b,c".split(",");
+
+List<String> listsStrings = Arrays.asList("a,b,c,d".split(","));
+String xString = String.join(",", listsStrings);
+String xString = String.join(",", "a,b,c,d".split(","));
+
+=================【4.序列化与反序列化】=================
+JSON.stringify()   序列化：对象==》"{'':'','':''}"(json格式字符串)
+JSON.parse()       反序列化："{'':'','':''}"(json格式字符串)==》对象
+
+=================【5.正则表达式】=================
+市场价格
+let reg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
+手机号码
+"^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$";
+物品数量0/10/1
+([0-9]|[1-9]([0-9]*))
+邮箱
+/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+=================【7.String类的方法】=================
+substring(2) 截取字符串  从 2 ==》结尾
+substring(0,2) 截取字符串 从 0 ==》2
+replace("/","-") 替换 把第一个 / ==> - 
+replaceAll("/","-") 替换 把所有 / ==> - 
+String[] aa = split('-') 分割字符串  以 - 为分割线 分割成 数组[]
+String s = aa.join("-"); 字符串拼接 
+
+indexOf() 查找字符或者子串第一次出现的地方。 
+lastIndexOf() 查找字符或者子串是后一次出现的地方。 
+concat() 连接两个字符串 like concat('%',#{p.keyword},'%')
+valueOf() 转换为字符串 
+toLowerCase() 转换为小写 
+toUpperCase() 转换为大写 
+char ch = 'b' ; "abc".charAt(1)='b';
+
+=================【3.javascript的类型转行】=================
+Number.parseInt(),
+Number.parseFloat()
+
+全局方法 String(123) 能够把数字转换为字符串
+String(Date())//返回 "Thu Jun 24 2021 10:36:42 GMT+0800 (中国标准时间)"
+Date().toString()//返回 "Thu Jun 24 2021 10:36:42 GMT+0800 (中国标准时间)"
+x.toString()
+(new Date()).getTime = Number((new Date()))//返回 1624502202642
+
+全局方法 Number() 可把字符串转换为数字。
+Number(false)// 返回 0
+Number(true)// 返回 1
+Number("")// 返回 0
+
+toFixed(2)返回字符串，保留两位小数
+toPrecision()返回字符串，把数字写为指定的长度。
+
+
+
+
+
+
+
+
+
+
+
+
+
+【1.JavaScript 中有七种内置类型：】
+空值 (null)
+未定义 (undefined)
+布尔值 (boolean)
+数字 (number)
+字符串 (string)
+对象 (object)
+符号 (symbol，ES6中新增)
+
+【2.js中哪些值在if判断是false】
+1:0
+2:false
+3:null
+4:undefined
+5:''或者""     // 空字符串
+6:NaN
+
+【6.样式 局部和优先级】
+<style scoped></style>
+!important
+
+【8.mysql】
+SELECT TO_DAYS(NOW()),TO_DAYS('2021-07-07'),NOW(),TO_DAYS('2021-07-06'),TO_DAYS('2021-07-08')
+
+vue实例绑定的元素内部的template标签不支持v-show指令
+
+
+js页面刷新问题
+window.location.reload();
+
+
+比较字符是否为空，最好判断它的长度。
+if ("John".equals(name)) ...  
+if (name.length() == 0) ...  
+if (name.isEmpty()) ... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

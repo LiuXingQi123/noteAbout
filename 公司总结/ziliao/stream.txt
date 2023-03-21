@@ -1,0 +1,140 @@
+-------------------stream----------------------
+1.创建流--使用Collection下的 stream() 和 parallelStream() 方法
+List<String> list = new ArrayList<>();
+Stream<String> stream = list.stream(); //获取一个顺序流
+Stream<String> parallelStream = list.parallelStream(); //获取一个并行流
+
+2. 流的中间操作
+2.1 筛选与切片
+   filter：过滤流中的某些元素
+   limit(n)：获取n个元素
+   skip(n)：跳过n元素，配合limit(n)可实现分页
+   distinct：通过流中元素的 hashCode() 和 equals() 去除重复元素
+2.2 映射
+   map：接收一个函数作为参数，该函数会被应用到每个元素上，并将其映射成一个新的元素。
+   flatMap：接收一个函数作为参数，将流中的每个值都换成另一个流，然后把所有流连接成一个流。
+2.3 排序
+   sorted()：自然排序，流中元素需实现Comparable接口
+   sorted(Comparator com)：定制排序，自定义Comparator排序器
+2.4 消费
+   peek：如同于map，能得到流中的每一个元素。但map接收的是一个Function表达式，有返回值；而peek接收的是Consumer表达式，没有返回值。
+
+3. 流的终止操作
+   allMatch：接收一个 Predicate 函数，当流中每个元素都符合该断言时才返回true，否则返回false
+   noneMatch：接收一个 Predicate 函数，当流中每个元素都不符合该断言时才返回true，否则返回false
+   anyMatch：接收一个 Predicate 函数，只要流中有一个元素满足该断言则返回true，否则返回false
+   findFirst：返回流中第一个元素
+   findAny：返回流中的任意元素
+   count：返回流中元素的总个数
+   max：返回流中元素最大值
+   min：返回流中元素最小值
+3.2 规约操作
+   List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24);
+   Integer v = list.stream().reduce((x1, x2) -> x1 + x2).get();
+   System.out.println(v); // 300
+   x1---每一步操作后的值
+   x2---每一步要操作的值(1,2,3,4,5...)
+   Integer v1 = list.stream().reduce(10, (x1, x2) -> x1 + x2);
+   System.out.println(v1); //310
+3.3 收集操作
+   collect：接收一个Collector实例，将流中元素收集成另外一个数据结构。
+   Collector<T, A, R> 是一个接口，有以下5个抽象方法：
+      Supplier<A> supplier()：创建一个结果容器A
+      BiConsumer<A, T> accumulator()：消费型接口，第一个参数为容器A，第二个参数为流中元素T。
+      BinaryOperator<A> combiner()：函数接口，该参数的作用跟上一个方法(reduce)中的combiner参数一样，将并行流中各 个子进程的运行结果(accumulator函数操作后的容器A)进行合并。
+      Function<A, R> finisher()：函数式接口，参数为：容器A，返回类型为：collect方法最终想要的结果R。
+      Set<Characteristics> characteristics()：返回一个不可变的Set集合，用来表明该Collector的特征。有以下三个特征：
+   CONCURRENT：表示此收集器支持并发。（官方文档还有其他描述，暂时没去探索，故不作过多翻译）
+   UNORDERED：表示该收集操作不会保留流中元素原有的顺序。
+   IDENTITY_FINISH：表示finisher参数只是标识而已，可忽略。
+3.3.1 Collector 工具库：Collectors
+Student s1 = new Student("aa", 10,1);
+Student s2 = new Student("bb", 20,2);
+Student s3 = new Student("cc", 10,3);
+List<Student> list = Arrays.asList(s1, s2, s3);
+//装成list
+List<Integer> ageList = list.stream().map(Student::getAge).collect(Collectors.toList()); // [10, 20, 10]
+//转成set
+Set<Integer> ageSet = list.stream().map(Student::getAge).collect(Collectors.toSet()); // [20, 10]
+//转成map,注:key不能相同，否则报错
+Map<String, Integer> studentMap = list.stream().collect(Collectors.toMap(Student::getName, Student::getAge)); // {cc=10, bb=20, aa=10}
+//字符串分隔符连接
+String joinName = list.stream().map(Student::getName).collect(Collectors.joining(",", "(", ")")); // (aa,bb,cc)
+
+
+Stream.generate(() -> Math.random()).limit(10).forEach(System.out::println);
+Stream.iterate(1, item -> item + 1).limit(10).forEach(System.out::println);
+
+mapToInt，mapToLong和mapToDouble
+
+sum(),max()和count()
+
+.stream().reduce(0, (sum, item) -> sum + item)
+
+市场价格
+let reg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
+手机号码
+"^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$";
+物品数量0/10/1
+([0-9]|[1-9]([0-9]*))
+
+
+
+height: 50px !important;
+
+@DateTimeFormat是spring包里面的注解，作用是接收从页面传到后台的日期值；
+@JsonFormat是jackson包里面的注解，作用是从后台向前台传递日期值；
+如果 pattern = “yyyy-MM-dd HH:mm:ss”，那么前端传递的必须是年月日时分秒的字符串，否则抛出异常；
+
+
+Git Staging  commit
+commerce-> team--remote--push--
+
+
+LocalDate只会获取年月日
+LocalTime只会获取几点几分几秒
+LocalDateTime获取年月日时分秒，等于LocalDate+LocalTime
+ZonedDateTime
+// 默认时区
+ZonedDateTime zbj = ZonedDateTime.now(); 
+// 用指定时区获取当前时间
+ZonedDateTime zny = ZonedDateTime.now(ZoneId.of("America/New_York"));
+Instant获取秒数或时间戳
+
+
+
+undefined
+null
+0（+0或-0）
+NaN
+''（空字符串，空格不算空字符串哟。）
+strings.replace(/(^\s*)|(\s*$)/g, "").length ==0
+
++{1,}
+?{0,1}
+*{0,}
+.[^ \n]
+/d[0-9]
+/w[A-Za-z0-9]
+/s [ \f\n\r\t\v]
+/S [^ \f\n\r\t\v]
+
+Alt+Shift+R 重命名 (是我自己最爱用的一个了,尤其是变量和类的Rename,比手工方法能节省很多劳动力)
+Ctrl+Q   定位到最后编辑的地方
+Ctrl+L 定位在某行 (对于程序超过100的人就有福音了)
+Ctrl+M 最大化当前的Edit或View (再按则反之)
+Ctrl+K   参照选中的Word快速定位到下一个
+Shift+Enter 在当前行的下一行插入空行(这时鼠标可以在当前行的任一位置,不一定是最后)
+Ctrl+J 正向增量查找
+Ctrl+Shift+X   把当前选中的文本全部变为大写
+Ctrl+Shift+Y   把当前选中的文本全部变为小写
+Ctrl+Shift+P 定位到对于的匹配符(譬如{}) (从前面定位后面时,光标要在匹配符里面,后面到前面,则反之)
+
+-----------------es6---------------------
+const array2 = Array.from(arrayLike);把一个对象{}==》数组[ ]
+Array.of方法用于将一组值，转换为数组
+Number.parseInt(),
+Number.parseFloat()
+Number.isInteger()用来判断一个数值是否为整数
+Math.trunc方法用于去除一个数的小数部分，返回整数部分;
+[1, 4, 3].includes(3)     // true

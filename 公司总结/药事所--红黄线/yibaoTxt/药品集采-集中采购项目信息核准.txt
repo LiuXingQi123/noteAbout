@@ -1,0 +1,281 @@
+
+IP---10.3.100.108
+1.查询【集中采购项目信息表】 多表关联-分页
+http://localhost:8080/ypjc/api/v1/Jzcgxmxxhz/queryJcxmxxPage
+{
+  "btchIdList": [集中采购批次id List],
+  "czpurcItmName": "集中采购项目名称",
+  "cnameName": "通用名",
+  "dosformCode": "剂型编码",
+  "pentpName": "生产企业名称",
+  "delvgrpIdList": [配送集团id List],
+  "rnd": 执行轮次(数字类型),
+  "beginTime": "开始时间",
+  "endTime": "结束时间",
+  "pageIndex": 1,
+  "pageSize": 10
+}
+2.查看详情-分页-----页面上要显示的字段---看下面的--CzpurcItmInfoBXqVo
+http://localhost:8080/ypjc/api/v1/Jzcgxmxxhz/queryJcxmxxXqPage
+{
+"czpurcItmId": "项目id",
+"pageIndex": 1,
+  "pageSize": 10
+}
+3.查询【集中采购中选品种绑定表】采购中选信息-分页-----页面上要显示的字段---看下面的--DrugRlsBVo
+http://localhost:8080/ypjc/api/v1/Jzcgxmxxhz/queryZxxxPage
+{
+"czpurcItmId": "项目id",
+"pageIndex": 1,
+  "pageSize": 10
+}
+4.查询 覆盖的药品品规信息-分页-----页面上要显示的字段---看下面的--DrugRlsBVo
+http://localhost:8080/ypjc/api/v1/Jzcgxmxxhz/queryYppgxxPage
+{
+"cnameName": "通用名",
+"packagecnt": "包装数量",
+"pacUnt": "包装单位",
+"pageIndex": 1,
+  "pageSize": 10
+}
+5.查询【已确认的集中采购采购批次信息】
+http://localhost:8080/ypjc/api/v1/Jzcgxmxxhz/queryQrJcpc
+{
+没有参数，空对象
+}
+6.审核不通过【集中采购项目信息表】
+http://localhost:8080/ypjc/api/v1/Jzcgxmxxhz/noAgree
+{
+"czpurcItmIdList":"项目id List",
+"chkOpnn":"审核意见"
+}
+7.审核通过【集中采购项目信息表】
+http://localhost:8080/ypjc/api/v1/Jzcgxmxxhz/agree
+{
+"czpurcItmIdList":"项目id List"
+}
+===================字段参考==============
+
+==============CzpurcItmInfoBVo==============
+private List<String> czpurcItmIdList;//项目IDList【审核通过不通过用】
+
+    private Date updtTime;//数据更新时间【审核通过不通过用】
+
+    @ApiModelProperty(value = "项目ID")
+    @Column(name = "CZPURC_ITM_ID", unique = true)
+    private String czpurcItmId;
+
+    @ApiModelProperty(value = "集采批次ID")
+    @Column(name = "BTCH_ID")
+    private String btchId;
+
+    @ApiModelProperty(value = "集中采购项目名称")
+    @Column(name = "CZPURC_ITM_NAME")
+    private String czpurcItmName;
+
+    @ApiModelProperty(value = "通用名")
+    @Column(name = "CNAME_NAME")
+    private String cnameName;
+
+    @ApiModelProperty(value = "剂型编码")
+    @Column(name = "DOSFORM_CODE")
+    private String dosformCode;
+
+    @ApiModelProperty(value = "标准规格")
+    @Column(name = "SPECS_DSCR_STD")
+    private String specsDscrStd;
+
+    @ApiModelProperty(value = "标准规格系数")
+    @Column(name = "SPECS_DSCR_STD_COF")
+    private Long specsDscrStdCof;
+
+    @ApiModelProperty(value = "中选企业名称")
+    @Column(name = "PRODUCT_ENTP_NAME")
+    private String productEntpName;
+
+    @ApiModelProperty(value = "配送集团名称")
+    @Column(name = "DELVGRP_Name")
+    private String delvgrpName;
+
+    @ApiModelProperty(value = "协议量记数单位")
+    @Column(name = "CNT_UNT_TYPE")
+    private String cntUntType;
+
+    @ApiModelProperty(value = "集中采购标期")
+    @Column(name = "CZPURC_ITM_PRDNUM")
+    private String czpurcItmPrdnum;
+
+    @ApiModelProperty(value = "执行轮次")
+    @Column(name = "RND")
+    private Long rnd;
+
+    @ApiModelProperty(value = "是否预付")
+    @Column(name = "ISADVPAY_FLAG")
+    private String isadvpayFlag;
+
+    @ApiModelProperty(value = "标期开始日期")
+    @Column(name = "CZPURC_BEGIN_TIME")
+    private String czpurcBeginTime;
+
+    @ApiModelProperty(value = "标期结束日期")
+    @Column(name = "CZPURC_END_TIME")
+    private String czpurcEndTime;
+
+    @ApiModelProperty(value = "执行开始日期")
+    @Column(name = "CZPURC_EXE_BEGIN_TIME")
+    private String czpurcExeBeginTime;
+
+    @ApiModelProperty(value = "执行结束日期")
+    @Column(name = "CZPURC_EXE_END_TIME")
+    private String czpurcExeEndTime;
+
+    @ApiModelProperty(value = "协议签订方式")
+    @Column(name = "CNTR_SIGN_TYPE")
+    private String cntrSignType;
+
+    @ApiModelProperty(value = "集中采购项目说明")
+    @Column(name = "CZPURC_ITM_DSCR")
+    private String czpurcItmDscr;
+
+    @ApiModelProperty(value = "申请提交时间")
+    @Column(name = "DCLA_TIME")
+    private Date dclaTime;
+
+    @ApiModelProperty(value = "审核时间")
+    @Column(name = "CHKTIME")
+    private Date chktime;
+
+    @ApiModelProperty(value = "初审审核意见")
+    @Column(name = "CHK_OPNN")
+    private String chkOpnn;
+
+    @ApiModelProperty(value = "状态")
+    @Column(name = "STAS")
+    private String stas;
+
+
+
+==============CzpurcItmInfoBXqVo==============
+@ApiModelProperty(value = "项目规格包装明细ID")
+    @Column(name = "CZPURC_ITM_SPECS_DETL_ID", unique = true)
+    private String czpurcItmSpecsDetlId;
+
+    @ApiModelProperty(value = "包装数量")
+    @Column(name = "PACKAGECNT")
+    private Long packagecnt;
+
+    @ApiModelProperty(value = "制剂单位")
+    @Column(name = "PREP_UNT")
+    private String prepUnt;
+
+    @ApiModelProperty(value = "包装单位")
+    @Column(name = "PAC_UNT")
+    private String pacUnt;
+
+    @ApiModelProperty(value = "规格包装")
+    @Column(name = "SPECS_PAC")
+    private String specsPac;
+
+    @ApiModelProperty(value = "销售单价")
+    @Column(name = "SEL_PRIC")
+    private Long selPric;
+
+
+    @ApiModelProperty(value = "项目规格ID")
+    @Column(name = "CZPURC_ITM_SPECS_ID", unique = true)
+    private String czpurcItmSpecsId;
+
+    @ApiModelProperty(value = "规格")
+    @Column(name = "SPECS_DSCR")
+    private String specsDscr;
+
+    @ApiModelProperty(value = "规格系数")
+    @Column(name = "SPECS_DSCR_COF")
+    private Long specsDscrCof;
+
+    @ApiModelProperty(value = "协议采购量")
+    @Column(name = "CZPURC_CNT")
+    private Long czpurcCnt;
+
+==============DrugRlsBVo==============
+
+@ApiModelProperty(value = "药品统编代码")
+    @Column(name = "DRUG_SH_CODE")
+    private String drugShCode;
+
+    @ApiModelProperty(value = "通用名")
+    @Column(name = "CNAME_NAME")
+    private String cnameName;
+
+    @ApiModelProperty(value = "药品商品名")
+    @Column(name = "DRUG_PRODNAME")
+    private String drugProdname;
+
+    @ApiModelProperty(value = "表述剂型")
+    @Column(name = "DOSFORM_FORM_CODE")
+    private String dosformFormCode;
+
+    @ApiModelProperty(value = "成分规格")
+    @Column(name = "SPECS_DSCR")
+    private String specsDscr;
+
+    @ApiModelProperty(value = "包装单位名称")
+    @Column(name = "PAC_UNT")
+    private String pacUnt;
+
+    @ApiModelProperty(value = "用药单位名称")
+    @Column(name = "PREP_UNT")
+    private String prepUnt;
+
+    @ApiModelProperty(value = "规格包装")
+    @Column(name = "SPECS_PAC")
+    private String specsPac;
+
+    @ApiModelProperty(value = "包装内含数量")
+    @Column(name = "PAC_CNT")
+    private Integer pacCnt;
+
+    @ApiModelProperty(value = "生产企业编码")
+    @Column(name = "PENTP_CODE")
+    private String pentpCode;
+
+
+
+
+
+
+
+
+
+
+
+Name	Code	Data Type	Length	Precision	Primary	Foreign Key	Mandatory
+通用名	CNAME_NAME	VARCHAR(80)	80		FALSE	FALSE	TRUE
+药品商品名	DRUG_PRODNAME	VARCHAR(80)	80		FALSE	FALSE	FALSE
+表述剂型	DOSFORM_FORM_CODE	VARCHAR(100)	100		FALSE	FALSE	FALSE
+成分规格	SPECS_DSCR	VARCHAR(300)	300		FALSE	FALSE	FALSE
+包装单位名称	PAC_UNT	VARCHAR(80)	80		FALSE	FALSE	FALSE
+制剂单位	PREP_UNT	VARCHAR(80)	80		FALSE	FALSE	FALSE
+规格包装	SPECS_PAC	VARCHAR(300)	300		FALSE	FALSE	FALSE
+包装内含数量	PAC_CNT	INT			FALSE	FALSE	FALSE
+药品上市许可持有人编码	PENTP_CODE	VARCHAR(20)	20		FALSE	FALSE	FALSE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

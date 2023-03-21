@@ -1,0 +1,101 @@
+
+维护关系永远是 多 的一方来维护
+inverse="true"指定要不要当自己来维护关系
+
+cascade 的值只能从 
+@ManyToOne(cascade={CascadeType.MERGE})
+CascadeType.PERSIST （级联新建）、
+CascadeType.REMOVE （级联删除）、 
+CascadeType.REFRESH （级联刷新）、
+CascadeType.MERGE （级联更新）中选择一个或多个。还有一个选择是使用
+CascadeType.ALL ，表示选择全部四项。
+
+fetch
+FetchType.EAGER 和 FetchType.LAZY 。
+前者表示关系类 ( 本例是 OrderItem? 类 ) 在主类 ( 本例是 Order 类 ) 加载的时候同时加载，
+后者表示关系类在被访问时才加载。默认值是 FetchType.LAZY 。
+
+overflow: hidden;/*内容超出后隐藏*/
+text-overflow: ellipsis;/* 
+超出内容显示为省略号*/
+white-space: nowrap;/*文本不进行换行*/
+white-space: nowrap;和text-overflow: ellipsis;要同时使用才能显示为省略号
+
+@JoinColumn所在实体是关系拥有方，name即拥有方对应表到参考表的外键名称。...toOne
+@mappedBy所在实体是关系的被拥有方，value值owner中表示被拥有类的属性。
+在单向关系中不需要设置mappedBy属性，双向关系中必须设置，避免双方都建立外键字段
+关系的拥有方负责关系的维护，在拥有方建立外键，所以用到@JoinColumn
+mappedBy跟JoinColumn/JoinTable总是处于互斥的一方。
+mappedBy和 inverse="true"是同一个意思
+
+
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO, generator = "sys_uid")主键生成策略
+@GenericGenerator(name = "sys_uid", strategy = "increment")
+@Column(name = "create_time",length = 50,updatable = false,columnDefinition = " text ")
+@OneToOne
+@OneToMany
+@ManyToOne
+@ManyToMany(@mappedBy="",cascade=CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+@JoinColumn(name="数据库外键字段名",nullable=false)
+@JoinTable(name = "中间表名",
+            inverseJoinColumns = @JoinColumn(name = "project_id", referencedColumnName = "project_pk"),
+            joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "task_pk")
+    )
+@JsonIgnore
+@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+@JsonFormat(shape= JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+@CreatedDate
+@LastModifiedDate
+@Enumerated(EnumType.STRING)
+updatable = false表示不进行更新操作
+@NotBlank
+@Temporal(TemporalType.TIMESTAMP)
+@JsonProperty
+
+@Modifying
+@Transactional
+
+open in browser
+open-in-browser.default
+
+
+===============================================================================================================================================
+
+@Transient 
+表中没有某个字段 departmentName ， 但是页面又要显示。此时，根据表生成的实体类，是不包含这个字段的
+
+@JsonIgnore
+一些实体数据不希望推送到前台但是又没有写Vo实体,可以使用此注解将其数据在返回至页面时清空数据
+
+@JoinColumn(name="addressID")//注释本表中指向另一个表的外键。
+
+@GeneratedValue注解存在的意义主要就是为一个实体生成一个唯一标识的主键
+@GeneratedValue注解有两个属性,分别是strategy和generator,
+generator属性的值是一个字符串,默认为"",其声明了主键生成器的名称
+
+@GenericGenerator要配合@GeneratedValue一起使用，并且@GeneratedValue注解中的”generator”属性要与@GenericGenerator注解中name属性一致，strategy属性表示hibernate的主键生成策略
+
+@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+@Column(length = 50)
+
+@Column(name = "update_time")
+
+@CreatedDate
+
+@LastModifiedDate
+
+like concat('%',?2,'%')
+
+nativeQuery ：表示是否采用原生SQL,诸如select * from tableName
+,nativeQuery=true
+
+IFNULL函数是MySQL控制流函数之一，它接受两个参数，如果不是NULL，则返回第一个参数。 否则，IFNULL函数返回第二个参数。
+
+现时7天前
+DATE_SUB(NOW(),INTERVAL 7 DAY)
+
+Arrays.asList()是把数组转成对象
+
+1.创建流--使用Collection下的 stream() 和 parallelStream() 方法

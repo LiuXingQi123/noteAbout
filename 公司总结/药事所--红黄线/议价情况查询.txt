@@ -1,0 +1,194 @@
+
+////下面这些都是分页 传参都要传 当前页 和 页大小
+1.【药品品规发布库】所有药品基础信息
+http://localhost:8080/ypyj/api/v1/yjqkcx/queryAllYpPage
+{
+"drugShCode":"【条件可选】统编代码",
+"cnameName","【条件可选】通用名"
+}
+
+2.该药品的【药品外省市价格信息】--当前有效的
+http://localhost:8080/ypyj/api/v1/yjqkcx/queryYpWssjgPage
+{
+
+}
+3.该药品的[医疗机构]【药品议价结果】--当前有效的和当前已作废的
+http://localhost:8080/ypyj/api/v1/yjqkcx/queryYpYyYjjgPage
+{
+"drugShCode":"统编代码",
+"medinsName","【条件可选】机构名称"
+}
+
+4.该药品的[药店]【药品议价结果】--当前有效的和当前已作废的
+http://localhost:8080/ypyj/api/v1/yjqkcx/queryYpYdYjjgPage
+{
+"drugShCode":"统编代码",
+"medinsName","【条件可选】机构名称"
+}
+5.该药品的 本机构/本企业【药品议价结果】--有效和已作废的，包含当前和历史的
+http://localhost:8080/ypyj/api/v1/yjqkcx/queryYpBjgOrBqyYjjgPage
+{
+"drugShCode":"统编代码",
+"medinsName","【条件可选】机构名称"
+}
+
+6.该药品的 同品种各医疗机构议价情况-医保目录层
+http://localhost:8080/ypyj/api/v1/yjqkcx/queryYpTpz1Page
+{
+"cnameNameStd","标化通用名",
+"hilistIcdType":"中西药标识"
+}
+
+7.该药品的 同品种各医疗机构议价情况-药品层
+http://localhost:8080/ypyj/api/v1/yjqkcx/queryYpTpz2Page
+{
+"cnameNameStd","标化通用名"
+}
+
+8.该药品的 同品种各医疗机构议价情况-药品医院层
+http://localhost:8080/ypyj/api/v1/yjqkcx/queryYpTpz3Page
+{
+"drugShCode":"统编代码",
+"medinsCode","医院编码"
+}
+
+============字段参考============
+/**
+     * 药品基础信息
+     */
+    private String drugShCode;//统编代码
+
+    private String cnameName;//通用名
+
+    private String dosformFormCode;//表述剂型
+
+    private String specsPac;//规格包装
+
+    private String pacUnt;//包装单位名称
+
+    private String entpName;//所属企业名称
+
+    private String pentpName;//药品上市许可证持有人
+
+    private String commentpName;//受委托生产企业
+
+    private String imppacentpName;//进口药品国内分包装企业
+
+    /**
+     * 药品外省市价格
+     */
+    private String isHasPric;//是否无省市价格
+
+    private String regnCode;//省市
+
+    private BigDecimal pric;//价格
+
+    private Date updtTime;//更新日期
+
+    /**
+     * 药品议价结果
+     */
+    private String medinsName;//医药机构名称
+
+    private BigDecimal refPurcPric;//议价价格
+
+    private String medinsConerName;//联系人姓名
+
+    private String medinsConerTel;//联系人电话
+
+    private String refPurcPricDrsc;//议价说明
+
+    private String stas;//状态
+
+    private String beginDate;//开始日期
+
+    private String endDate;//结束日期
+
+    private String pentpConerName;//企业联系人姓名
+
+    private String pentpConerTel;//企业联系人电话
+
+    private Date sbmtTime;//提交时间
+
+    private Date chkTime;//确认时间
+
+    private String delDrsc;//作废原因
+
+    private String overYellowDrsc;//超黄线原因
+
+    /**
+     * 同品种各医疗机构议价情况-医保目录层
+     */
+    private String hilistCode;//目录顺序号
+
+    private String hilistIcdType;//中西药标志
+
+    private String  varietiesName;//药品品种名称
+
+    private String dosformName;//目录剂型名称
+
+    private BigDecimal minPrice;//最低价
+
+    private BigDecimal avgPrice;//平均价
+
+    private BigDecimal maxPrice;//最高价
+
+    /**
+     * 同品种各医疗机构议价情况-药品层
+     */
+    private BigDecimal minPrice2;//最低价
+
+    private BigDecimal avgPrice2;//平均价
+
+    private BigDecimal maxPrice2;//最高价
+
+    /**
+     * 同品种各医疗机构议价情况-药品医院层
+     */
+
+    /**
+     * 本机构药品议价结果
+     */
+
+    /**
+     * 本企业药品议价结果
+     */
+
+
+    private String medinsType;//医疗机构类型
+
+
+
+private String drugShCode;//统编代码
+
+    private String cnameName;//通用名
+
+    private String medinsName;//医药机构名称
+
+    private String medinsType;//医疗机构类型
+
+    private String hilistCode;//目录顺序号
+
+    private String hilistIcdType;//中西药标志
+
+    private String cnameNameStd;//标化通用名
+
+    private String medinsCode;//医药机构编码
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,170 @@
+1.查询【集采批次信息】 多表关联-分页
+http://localhost:8119/ypjc/api/v1/jzcgpcxxwh/queryJcpcxxPage
+{
+    "btchName":"集采批次",
+    "btchType":"集采类型",
+    "btchStas":"状态",
+    "drugName":"药品名称",
+    "pageIndex":"1",
+    "pageSize":"10"
+}
+
+2.查询【集采批次目录信息】 -分页
+http://localhost:8119/ypjc/api/v1/jzcgpcxxwh/queryJcpcmlxxPage
+{
+    "btchId":"集采批次ID",
+    "pageIndex":"1",
+    "pageSize":"10"
+}
+
+3.作废【集采批次信息】--注意是【get】方法
+http://localhost:8119/ypjc/api/v1/jzcgpcxxwh/zuofeiJcpcxx/集采批次ID
+
+4.作废【集采批次目录信息】--注意是【get】方法
+http://localhost:8119/ypjc/api/v1/jzcgpcxxwh/zuofeiJcpcmlxx/集采批次目录ID
+
+5.新增【集采批次信息】
+http://localhost:8119/ypjc/api/v1/jzcgpcxxwh/insertJcpcxx
+{
+    "btchName":"集采批次",
+    "btchType":"集采类型",
+    "memo":"集采批次描述",
+    "isByentpFlag":"是否按企业招标",
+    "btchStas":"状态【传00】",
+    "valiFlag":"有效标志【传1】",
+    "rid":"数据唯一记录号【传空''不是null】"
+}
+
+6.新增【集采批次目录信息】
+http://localhost:8119/ypjc/api/v1/jzcgpcxxwh/insertJcpcmlxx
+{
+    "btchId":"集采批次ID",
+    "btchDetlNo":"分组序号",
+    "btchDetlName":"分组名称",
+    "drugName":"药品名称",
+    "drugProdname":"商品名",
+    "entpName":"企业名称",
+    "entpAbbrName":"企业简称",
+    "specsDscr":"规格",
+    "valiFlag":"有效标志【传1】",
+    "rid":"数据唯一记录号【传空''不是null】"
+}
+
+7.修改【集采批次信息】
+http://localhost:8119/ypjc/api/v1/jzcgpcxxwh/updateJcpcxx
+{
+    "btchId":"集采批次ID",
+    "btchName":"集采批次",
+    "btchType":"集采类型",
+    "memo":"集采批次描述",
+    "isByentpFlag":"是否按企业招标"
+}
+
+8.确认【集采批次信息】
+http://localhost:8119/ypjc/api/v1/jzcgpcxxwh/confirmJcpcxx
+{
+    "btchId":"集采批次ID",
+    "btchStas":"状态【传10】"
+}
+
+9.导入【集采批次目录信息】
+http://localhost:8119/ypjc/api/v1/jzcgpcxxwh/importExcel/集采批次ID
+
+10.下载【集采批次目录信息模板】
+http://localhost:8119/ypjc/api/v1/jzcgpcxxwh/exportExcelMb
+
+================页面字段参考=================
+
+=================1.集采批次信息=============
+@ApiModelProperty(value = "集采批次ID")
+    private String btchId;
+
+    @ApiModelProperty(value = "集采批次")
+    private String btchName;
+
+    @ApiModelProperty(value = "集采类型")
+    private String btchType;
+
+    @ApiModelProperty(value = "集采批次描述")
+    private String memo;
+
+    @ApiModelProperty(value = "是否按企业招标")
+    private String isByentpFlag;
+
+    @ApiModelProperty(value = "状态")
+    private String btchStas;
+
+    @ApiModelProperty(value = "删除时间")
+    private Date delTime;
+
+    @ApiModelProperty(value = "有效标志")
+    private String valiFlag;
+
+    @ApiModelProperty(value = "数据唯一记录号")
+    private String rid;
+
+    @ApiModelProperty(value = "数据创建时间")
+    private Date crteTime;
+
+    @ApiModelProperty(value = "数据更新时间")
+    private Date updtTime;
+
+
+
+
+
+
+
+=================2.集采批次目录信息=============
+@ApiModelProperty(value = "集采批次目录ID")
+    private String btchDetlId;
+
+    @ApiModelProperty(value = "集采批次ID")
+    private String btchId;
+
+    @ApiModelProperty(value = "分组序号")
+    private String btchDetlNo;
+
+    @ApiModelProperty(value = "分组名称")
+    private String btchDetlName;
+
+    @ApiModelProperty(value = "药品名称")
+    private String drugName;
+
+    @ApiModelProperty(value = "商品名")
+    private String drugProdname;
+
+    @ApiModelProperty(value = "企业名称")
+    private String entpName;
+
+    @ApiModelProperty(value = "企业简称")
+    private String entpAbbrName;
+
+    @ApiModelProperty(value = "规格")
+    private String specsDscr;
+
+    @ApiModelProperty(value = "有效标志")
+    private String valiFlag;
+
+    @ApiModelProperty(value = "数据唯一记录号")
+    private String rid;
+
+    @ApiModelProperty(value = "数据创建时间")
+    private Date crteTime;
+
+    @ApiModelProperty(value = "数据更新时间")
+    private Date updtTime;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

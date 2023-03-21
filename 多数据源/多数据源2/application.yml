@@ -1,0 +1,162 @@
+debug: true
+spring:
+  application:
+    name: ysxt-yljg-middle
+  aop:
+    auto: true
+  main:
+    allow-bean-definition-overriding: true
+  redis:
+    host: 10.241.81.9
+    port: 6666
+    database: 2
+    jedis:
+      pool:
+        min-idle: 1
+        max-active: 4
+        max-idle: 2
+  session:
+    store-type: redis
+    timeout: 18000S
+  thymeleaf:
+    cache: false
+  datasource:
+    mysql1:
+      type: com.zaxxer.hikari.HikariDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+      jdbc-url: jdbc:mysql://10.241.81.9:3306/db_ysxt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+      username: ysxt2
+      password: ysxt2
+      hikari:
+        maximum-pool-size: 20
+        max-lifetime: 30000
+        idle-timeout: 30000
+        data-source-properties:
+          prepStmtCacheSize: 250
+          prepStmtCacheSqlLimit: 2048
+          cachePrepStmts: true
+          useServerPrepStmts: true
+
+    mysql2:
+      type: com.zaxxer.hikari.HikariDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+      jdbc-url: jdbc:mysql://10.241.81.9:3306/db_ysxt_1?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+      username: ysxt2
+      password: ysxt2
+      hikari:
+        maximum-pool-size: 20
+        max-lifetime: 30000
+        idle-timeout: 30000
+        data-source-properties:
+          prepStmtCacheSize: 250
+          prepStmtCacheSqlLimit: 2048
+          cachePrepStmts: true
+          useServerPrepStmts: true
+  jms:
+    enabled: false
+server:
+  # cl: 开发环境尽量不要使用8080，
+  port: 8108
+  http2:
+    enabled: true
+whs:
+  usercontext:
+    strategy: JWT
+    #cl 配置分布式上下文的存储前缀和过期时间
+    keyPrefix: "user:context:"
+    keyExpireMills: 30000
+  #userContext:
+  #  config:
+  #    enabled: true
+  aop:
+    enabled: true
+  exception:
+    enabled: true
+  id:
+    enabled: true
+    data-center-id: 1
+    machine-id: 2
+    max-offset: 0
+    zk:
+      address:  # 如果需要使用zookeeper来控制 machineId
+  lock:
+    enabled: true
+  mybatis:
+    configuration:
+      map-underscore-to-camel-case: true
+    enabled: true
+    paged:
+      zeroPageIndexBase: false
+  dict:
+    enabled: false
+    jdbc:
+      catalog-sql: SELECT AAA100 AS CODE, AAA101 AS VALUE FROM AA10_DIC
+      detail-sql: SELECT AAA102 AS CODE,AAA103 AS VALUE,CZA001 AS EXT1,CZA002 AS EXT2 FROM AA10_DIC WHERE AAA100=? ORDER BY to_number(CZA001)
+  web:
+    enhance: #web增强
+      enabled: true #默认值为true
+      performance-monitor: #MVC性能监控
+        max-access-mills: 20 # 超过此值的将进行输出，配置为少于零将关闭本特性
+      repeat-submit:
+        token-name: "_token" # 不配置本段，或者设置为空字符串将关闭本特性
+      tracker: #web tracker
+        type: db
+        redis:
+          expire-mills: 3600 # 默认值7天
+    cors:
+      # cl : cors 需要启用，或者前端中配置代理也行
+      enabled: true
+      allowed-origin: "*"
+      allow-credentials: true
+      allow-method: GET,POST,PUT
+      allow-header: "*"
+      exposed-header: Accept,Access-Control-Allow-Credentials,Access-Control-Allow-Origin,Content-Type,Date,Transfer-Encoding,Vary,Origin,X-Requested-With
+    excel:
+      enabled: true
+      xls:
+        prefix: "/xls"
+        suffix: ".xls"
+        view-prefix: "xls:"
+    word:
+      enabled: true
+      prefix: "/docx"
+      suffix: ".docx"
+      ##view-prefix: "docx:"
+    pdf:
+      enabled: true
+      prefix: "/docx"
+      suffix: ".docx"
+      ##view-prefix: "wpdf:"
+logging:
+  level:
+    root: INFO
+    com.wondersgroup.yb.grzh.cxclsj.feignclient: debug
+    com.wondersgroup.whs.framework.components.context.feign.JwtBaseUserContextService: debug
+
+runtime:
+  exception: debug
+
+feign:
+  hystrix:
+    enabled: false
+  httpclient:
+    enabled: true
+    time-to-live: 30
+    time-to-live-unit: seconds
+    connection-timeout: 10000
+    max-connections: 1000
+    max-connections-per-route: 1000
+    connection-timer-repeat: 3000
+  client:
+    config:
+      default:
+        readTimeout: 120000
+        connectTimeout: 10000
+
+ribbon:
+  #调用接口处理超时时间
+  ReadTimeout: 120000
+  #调用接口连接超时时间
+  ConnectTimeout: 10000
+
+server_url: E:/

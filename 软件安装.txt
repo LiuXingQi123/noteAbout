@@ -1,0 +1,127 @@
+igg谷歌访问助手
+谷歌插件下载--扩展迷--https://www.extfans.com/--http://www.crx4.com/
+最新谷歌官方正式版本Chrome浏览器下载地址--http://www.google.cn/intl/zh-CN/chrome/browser/
+Chrome浏览器谷歌官方下载地址: https://www.google.cn/intl/zh-CN/chrome/ (大陆可直接访问)
+
+
+用迅雷下载mysql_server不然会下载特别慢
+迅雷---https://www.xunlei.com/
+
+
+jdk8下载---https://www.programmer-box.com/?ref=jdk_1.8
+jdk8安装---https://www.php.cn/java/base/461548.html
+
+maven下载----https://maven.apache.org/download.cgi
+maven安装----https://www.cnblogs.com/pengpengdeyuan/p/14217772.html
+
+mysql_server下载---https://dev.mysql.com/downloads/file/?id=506256
+mysql_server安装---https://blog.csdn.net/weixin_45663697/article/details/108949910
+mysql_sqlyog密钥---http://www.xitongbuluo.com/jiaocheng/51343.html
+mysql_sqlyog下载---https://sqlyog.en.softonic.com/
+mysql_sqlyog安装---https://blog.csdn.net/weixin_43724203/article/details/108658723
+
+datagrip下载---https://www.jetbrains.com/zh-cn/datagrip/download/download-thanks.html
+datagrip激活码---https://33tool.com/idea/---------https://vrg123.com/----https://shimo.im/docs/e1Az4xjzewfJ2nqW/read
+
+idea下载---https://www.jetbrains.com/idea/download/download-thanks.html?platform=windows
+idea安装---http://c.biancheng.net/view/7592.html
+idea破解---https://www.cnblogs.com/itzoo/p/15518602.html---https://www.cnblogs.com/JUNzx/p/15627454.html-----https://www.hicxy.com/9561.html
+idea激活码---https://shimo.im/docs/qv9dTwrgYykjqxkY/read----
+
+svn_server下载---
+svn_server安装---
+svn_wugui下载---https://tortoisesvn.net/downloads.html
+svn_wugui安装---https://blog.csdn.net/qq_20757489/article/details/93042001
+eclipse安装svn----https://blog.csdn.net/u010881625/article/details/80758063/
+
+vscode镜像下载---https://code.visualstudio.com/Download
+镜像---az764295.vo.msecnd.net==》vscode.cdn.azure.cn
+vscode插件---https://blog.csdn.net/qq_38111015/article/details/116014978
+
+
+sts下载---https://spring.io/tools
+sts安装---https://www.cnblogs.com/atomgame/p/12408661.html
+
+eclipse下载---https://www.eclipse.org/downloads/packages/
+
+git_server下载---https://gitforwindows.org/
+git_server安装---https://blog.csdn.net/mukes/article/details/115693833
+git_wugui下载---https://tortoisegit.org/download/
+git_wugui安装---https://blog.csdn.net/dsh789/article/details/110057004
+GitHub Desktop安装----https://dl.xunlei.com/  【复制地址到迅雷下载】
+eclipse连接git仓库-----https://www.cnblogs.com/zhaopengcheng/p/574499
+
+
+nodejs下载---https://nodejs.org/en/download/
+nodejs安装---https://www.runoob.com/nodejs/nodejs-install-setup.html
+
+nvm下载---https://github.com/coreybutler/nvm-windows/releases?page=1
+nvm安装---https://blog.csdn.net/m0_59910554/article/details/126308956
+
+vuecli下载---https://cli.vuejs.org/zh/guide/installation.html
+
+redis_server下载---https://github.com/tporadowski/redis/releases
+redis_server安装---https://www.runoob.com/redis/redis-install.html
+redis_client下载---https://www.cnblogs.com/telwanggs/p/11431501.html
+
+grade下载---https://gradle.org/releases/
+grade安装---https://blog.csdn.net/qq_14810195/article/details/107378941
+
+HBuilder下载-----https://pc.qq.com/detail/3/detail_22603.html
+
+oracle_server下载----https://www.oracle.com/database/technologies/oracle-database-software-downloads.html
+oracle_server下载安装----https://blog.csdn.net/zouxun660/article/details/126232529
+oracle_server下载安装----https://blog.csdn.net/Evening_breeze_/article/details/113988231
+
+pd16.6安装----https://blog.csdn.net/qq_23681041/article/details/111145656
+
+
+
+vpn下载-安装---https://client.arraynetworks.com.cn:8080/zh/troubleshooting
+
+notepat++下载----https://notepad-plus.en.softonic.com/
+
+pd16.5下载----https://blog.csdn.net/cicong2374/article/details/100686384
+
+
+软件卸载---win+r-->appwiz.cpl
+
+
+
+
+
+
+spring-cloud搭建---https://blog.csdn.net/z1987865446/article/details/109542756
+https://blog.csdn.net/z1987865446/article/details/109542756
+
+
+
+[mysqld]
+#设置mysql的安装目录
+basedir = E:\ruanjian\mysql_server\mysql-8.0.26-winx64\
+#设置mysql数据库的数据存放目录
+datadir = E:\ruanjian\mysql_server\mysql-8.0.26-winx64\data\
+#设置3306端口
+port = 3306
+skip-grant-tables
+#设置允许最大连接数
+max_connections = 200
+#服务端使用的字符集默认为UTF8
+character-set-server = utf8
+#创建新表时使用的默认存储引擎
+default-storage-engine = INNODB
+[mysl]
+#设置mysql客户端的默认字符集
+default_character-set = utf8
+[client]
+#设置mysql客户端连接服务端时默认使用的端口
+port = 3306
+default-character-set = utf8
+
+mysql -u root -p
+update user set authentication_string = password(“123456”) where user = “root”
+E:\ruanjian\mysql_server\mysql-8.0.26-winx64\bin
+update mysql.user set authentication_string=password('123456')  where user='root' and Host =' localhost'
+
+
+
