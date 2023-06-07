@@ -18,14 +18,20 @@
 17.
 
 #jvm篇
-1.什么是jvm
-2.什么是gc，gc有啥作用
+1.什么是 JVM？它有哪些组成部分？
+2.什么是垃圾回收器（Garbage Collector）？它的作用是什么？
 3.什么是内存泄漏，造成内存泄漏的原因是什么
 4.内存回收有哪几种方式，优缺点分别是什么
+5.什么是类加载器（ClassLoader）？它的作用是什么？
+6.什么是字节码（Bytecode）？它的作用是什么？
+7.什么是 JVM 调优？如何进行 JVM 调优？
+8.什么是内存泄漏（Memory Leak）？如何避免内存泄漏？
+9.什么是线程死锁（Thread Deadlock）？如何避免线程死锁？
+
 
 
 #spring篇
-1.什么是spring
+1.什么是Spring框架？为什么使用Spring？
 1.spring是如何创建Bean对象的（Spring中的bean生命周期？）
 2.spring的AOP和IOC是什么，分别有什么用
 3.spring为什么要用三级缓存解决循环依赖，导致循环依赖失效的情况有哪些
