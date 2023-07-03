@@ -1,0 +1,105 @@
+1.在pom.xml文件中添加Oracle和MySQL数据库驱动的依赖项：
+
+
+<dependencies>
+    <!-- Oracle -->
+    <dependency>
+        <groupId>com.oracle.database.jdbc</groupId>
+        <artifactId>ojdbc6</artifactId>
+        <version>11.2.0.4</version>
+    </dependency>
+
+    <!-- MySQL -->
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.26</version>
+    </dependency>
+</dependencies>
+
+
+
+2.在applicationContext.xml配置文件中配置数据源、SessionFactory和事务管理器：
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Oracle 数据源 -->
+    <bean id="oracleDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+        <property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" />
+        <property name="username" value="your_oracle_username" />
+        <property name="password" value="your_oracle_password" />
+    </bean>
+
+    <!-- MySQL 数据源 -->
+    <bean id="mysqlDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/your_mysql_database" />
+        <property name="username" value="your_mysql_username" />
+        <property name="password" value="your_mysql_password" />
+    </bean>
+
+    <!-- Oracle SessionFactory -->
+    <bean id="oracleSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="oracleDataSource" />
+        <!-- 配置MyBatis相关的其他属性 -->
+    </bean>
+
+    <!-- MySQL SessionFactory -->
+    <bean id="mysqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="mysqlDataSource" />
+        <!-- 配置MyBatis相关的其他属性 -->
+    </bean>
+
+    <!-- Oracle 事务管理器 -->
+    <bean id="oracleTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="oracleDataSource" />
+    </bean>
+
+    <!-- MySQL 事务管理器 -->
+    <bean id="mysqlTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="mysqlDataSource" />
+    </bean>
+
+    <!-- 扫描 Oracle Mapper 接口 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.your.package.oracle" />
+        <property name="sqlSessionFactoryBeanName" value="oracleSessionFactory" />
+    </bean>
+
+    <!-- 扫描 MySQL Mapper 接口 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.your.package.mysql" />
+        <property name="sqlSessionFactoryBeanName" value="mysqlSessionFactory" />
+    </bean>
+
+</beans>
+
+
+
+
+请确保替换示例代码中的数据库连接信息和包名。
+
+通过以上配置，你的SSM项目就可以同时使用Oracle和MySQL的数据源了。你可以在不同的Mapper接口中使用@Qualifier注解来指定使用的数据源，例如：
+
+
+@Repository
+@Qualifier("oracleDataSource")
+public interface OracleMapper {
+    // Oracle 数据源的操作方法
+}
+
+@Repository
+@Qualifier("mysqlDataSource")
+public interface MySQLMapper {
+    // MySQL 数据源的操作方法
+}
+
+
+
+

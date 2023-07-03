@@ -1,0 +1,121 @@
+
+【新建（第一次初始化）】
+1.初始化git仓库
+git init
+
+2.将文件添加到暂存区
+git add README.md  或者 git add .
+
+3.将暂存区的文件提交到本地仓库
+git commit -m "first commit"
+
+4.重命名当前分支。它将当前分支的名称改为 main
+git branch -M main
+
+5.本地仓库与远程仓库建立关联
+git remote add origin https://github.com/LiuXingQi123/gitCommand.git
+
+6.将本地仓库的提交推送到远程仓库的 main 分支
+git push -u origin main
+
+
+
+
+【修改（部分新增提交）】
+1.查看远程仓库的地址
+git remote -v
+
+2.本地仓库就不再与该远程仓库关联
+git remote remove origin
+
+3.关联远程仓库
+git remote add origin https://github.com/LiuXingQi123/gitCommand.git
+
+4.添加文件
+git add README.md  或者 git add .
+
+5.提交文件到本地仓库
+git commit -m "first commit"
+
+6.推送到远程仓库
+git push -u origin main
+
+
+查看本地仓库最近的 5 个提交记录
+git log --5
+
+查看远程仓库最近的 5 个提交记录
+git ls-remote --refs --sort='-committerdate' --heads https://github.com/LiuXingQi123/gitCommand.git | head -n 5
+
+
+
+
+#防火墙
+NetSh Advfirewall set allprofiles state off  #关闭防火墙
+Netsh Advfirewall show allprofiles           #查看防火墙状态
+
+#443报错
+git config --global http.proxy 'socks5://127.0.0.1:1080'
+git config --global https.proxy 'socks5://127.0.0.1:1080'
+git config --global --unset http.proxy  
+git config --global --unset https.proxy
+
+
+
+
+
+下面是对每个命令的解释：
+
+1. `git init`：这个命令在当前目录下创建一个新的 Git 仓库。它会初始化一个新的空仓库，让 Git 开始跟踪文件变更。
+
+2. `git add README.md` 或者 `git add .`：这个命令用于将文件添加到暂存区。`git add README.md` 将单个文件 `README.md` 添加到暂存区，而 `git add .` 则将当前目录下的所有文件添加到暂存区，包括新建的文件和已修改的文件。
+
+3. `git commit -m "first commit"`：这个命令用于将暂存区的文件提交到本地仓库，并创建一个新的提交记录。`-m "first commit"` 是提交的信息，用于描述这个提交的目的或内容。
+
+4. `git branch -M main`：这个命令用于重命名当前分支。它将当前分支的名称改为 `main`。这一步是为了与许多仓库的默认分支名称保持一致，不是必需的步骤。
+
+5. `git remote add origin https://github.com/LiuXingQi123/gitCommand.git`：这个命令用于将本地仓库与远程仓库建立关联。`origin` 是远程仓库的名称，`https://github.com/LiuXingQi123/gitCommand.git` 是远程仓库的地址。
+
+6. `git push -u origin main`：这个命令将本地仓库的提交推送到远程仓库的 `main` 分支。`-u` 选项将本地分支与远程分支进行关联，使得下次推送时可以简化命令。`origin` 是远程仓库的名称，`main` 是要推送的本地分支名称。
+
+综合以上命令，你的步骤如下：
+
+1. 在当前目录下创建一个新的 Git 仓库。
+2. 添加文件 `README.md` 到暂存区或添加当前目录下的所有文件到暂存区。
+3. 提交暂存区的文件到本地仓库，并创建提交记录。
+4. （可选）重命名当前分支为 `main`。
+5. 建立本地仓库与远程仓库的关联，指定远程仓库地址。
+6. 将本地仓库的提交推送到远程仓库的 `main` 分支。
+
+
+
+
+
+
+
+
+
+
+这几个命令的意思如下：
+
+1. `git remote remove origin`：这个命令用于移除当前关联的名为 `origin` 的远程仓库。`origin` 是远程仓库的名称，它可以根据需要进行更改。在这个命令执行后，本地仓库就不再与该远程仓库关联。
+
+2. `git remote add origin https://github.com/LiuXingQi123/gitCommand.git`：这个命令用于添加一个新的远程仓库地址，并将其命名为 `origin`。URL `https://github.com/LiuXingQi123/gitCommand.git` 是新远程仓库的地址。通过这个命令，你将本地仓库与新的远程仓库进行关联。
+
+3. `git branch -M main`：这个命令用于重命名当前分支。在这个命令中，`main` 是新的分支名称。通过这个命令，你将当前分支重命名为 `main`。
+
+4. `git push -u origin main`：这个命令用于将本地分支的提交推送到远程仓库的 `main` 分支，并建立追踪关系。`-u` 选项会将本地分支与远程分支进行关联，下次推送时不需要指定分支名。`origin` 是远程仓库的名称，`main` 是要推送的本地分支名。
+
+总结起来，这几个命令的目的是将本地仓库与新的远程仓库关联，并推送当前分支的提交到远程仓库的 `main` 分支。这样，你就能够使用新的远程仓库地址进行代码的提交和同步了。
+
+
+
+
+
+
+
+
+
+
+
+
