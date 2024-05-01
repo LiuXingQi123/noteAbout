@@ -118,17 +118,50 @@ MyBatis的缓存机制
 2.二级缓存（SqlSessionFactory级别的缓存） 需要手动开启和配置，二级缓存是基于namespace级别的缓存
 
 
+-- nacos的cmd命令
+startup.cmd -m standalone
+
+kong反向代理前端fount
+后端通过nacos跨服务请求，openfeign反向代理
+
+两个nacos机子
+
+kong【网关、负载均衡、限流、黑白名单、身份验证(jwt)】
+先是【请求 有kong的机子ip+端口/路由/....】匹配对应的【路由】，一个【路由】下有多个目标节点信息
+,再【路由】转发到对应的【service】，一个【service】下有多个【路由】
+,【service】转发到对应的【upstream】
+,【upstream】就定义了节点信息
+
+【ShardingSphere-shardingJDBC】
+1.主从复制
+2.读写分离
+3.分库分表
+
+【MVCC】
+1.undo_log回滚日志
+2.基于undo_log的版本链
+3.事务id（trx_id），回滚指针（db_roll_ptr）
+4.ReadView快照读（也就是select语句）【m_ids：当前活跃的事务编号集合、min_trx_id：最小活跃事务编号、max_trx_id：预分配事务编号，当前最大事务编号+1、creator_trx_id：ReadView创建者事务编号】
+5.当前读（insert、update、delete、select ...for update、select ... lock in share mode）
+6.已提交读（RC）：每一次执行快照读的时候生成ReadView、可重复读（RR）：仅在第一次执行快照读时生成ReadView，后续快照读复用(有例外: 后面会说)
+
+连续多次快照读，ReadView会产生复用，没有幻读问题
+特例:当两次快照读之间存在当前读，ReadView会重新生成，导致产生幻读
+
+trx_id < min_trx id 数据已提交，可以访问
+trx_id > max_trx id 事务是在ReadView生成以后才开启，不允许访问
+min_trx_id<= trx_id <= max_trx_id并且不在m_ids中，则可以访问
 
 
+snipaste截图软件
+ctrl+alt+M
 
-
-
-
-
-
-
-
-
+【MySQL锁】
+粒度分类：全局锁、表锁（表共享读锁、表独占写锁）、行锁
+模式分类：乐观锁、悲观锁
+属性分类：共享锁（读锁：当前线程可以读不可写，其他线程可以读不可写）、排他锁（写锁：当前线程可以读可以写，其他线程不可读不可写）
+状态分类：意向共享锁、意向排他锁
+算法分类：间隙锁、记录锁、临键锁
 
 
 
