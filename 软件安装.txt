@@ -73,7 +73,7 @@ oracle_server下载----https://www.oracle.com/database/technologies/oracle-datab
 oracle_server下载安装----https://blog.csdn.net/zouxun660/article/details/126232529
 oracle_server下载安装----https://blog.csdn.net/Evening_breeze_/article/details/113988231
 
-pd16.6安装----https://blog.csdn.net/qq_23681041/article/details/111145656
+pd16.6安装----https://blog.csdn.net/weixin_43343835/article/details/109593014
 
 
 
